@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Radixen: builders, researchers, and people who make things." />
+  <title>Radixen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ============ INTRO OVERLAY ============ -->
+  <div id="intro-overlay" aria-hidden="true">
+    <div id="intro-logo-wrap">
+      <img src="assets/logo.png" alt="" id="intro-logo">
+      <div id="intro-wordmark">RADIXEN</div>
+    </div>
+    <div id="intro-bar"></div>
+  </div>
+
+  <!-- ============ NAVIGATION ============ -->
+  <nav id="navbar">
+    <a href="#" class="nav-brand" aria-label="Radixen home">
+      <img src="assets/logo.png" alt="Radixen" class="nav-logo" id="nav-logo">
+    </a>
+    <ul class="nav-links" role="list">
+      <li><a href="#work">Areas</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="https://github.com/Radixen-Dev/" target="_blank" rel="noopener">GitHub</a></li>
+    </ul>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <main>
+
+    <!-- ============ HERO ============ -->
+    <section id="hero" aria-label="Welcome to Radixen">
+      <canvas id="hero-canvas" aria-hidden="true"></canvas>
+      <div class="hero-bg-glow" aria-hidden="true"></div>
+      <div class="hero-content">
+        <img src="assets/logo.png" alt="Radixen logo" class="hero-logo" id="hero-logo">
+        <p class="hero-eyebrow" id="hero-eyebrow">// Est. whenever</p>
+        <h1 class="hero-title" id="hero-title" aria-label="RADIXEN">RADIXEN</h1>
+        <p class="hero-subtitle" id="hero-subtitle">
+          AI, software, interactive media, web, research.<br>
+          Whatever we find worth making, we make.
+        </p>
+        <div class="hero-cta" id="hero-cta">
+          <a href="#work" class="btn-primary">
+            What we do
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#contact" class="btn-ghost">Get in touch</a>
+        </div>
+      </div>
+      <div class="scroll-indicator" id="scroll-indicator" aria-hidden="true">
+        <div class="scroll-line"></div>
+        <span>scroll</span>
+      </div>
+    </section>
+
+    <!-- ============ WHAT WE DO ============ -->
+    <section id="work">
+      <p class="section-label">What we do</p>
+      <h2 class="section-title">Things we<br><span class="text-gradient">actually do.</span></h2>
+      <p class="section-subtitle">
+        No single lane. We jump between fields because the gaps between them are usually where the interesting stuff lives.
+      </p>
+      <div class="work-grid">
+
+        <article class="work-card">
+          <div class="card-icon" aria-hidden="true">🤖</div>
+          <h3 class="card-title">AI &amp; Machine Learning</h3>
+          <p class="card-desc">Models, agents, and tooling built hands-on. Less interested in hype, more in what actually works.</p>
+          <span class="card-tag">AI Dev</span>
+        </article>
+
+        <article class="work-card">
+          <div class="card-icon" aria-hidden="true">⚙️</div>
+          <h3 class="card-title">Software Engineering</h3>
+          <p class="card-desc">Backend systems, CLIs, APIs, native apps. If it's software and it solves something real, it's fair game.</p>
+          <span class="card-tag">Software</span>
+        </article>
+
+        <article class="work-card">
+          <div class="card-icon" aria-hidden="true">🌐</div>
+          <h3 class="card-title">Web Development</h3>
+          <p class="card-desc">Sites and apps that work well and look right. Fast, responsive, and built like they should last.</p>
+          <span class="card-tag">Web</span>
+        </article>
+
+        <article class="work-card">
+          <div class="card-icon" aria-hidden="true">�</div>
+          <h3 class="card-title">Creative &amp; Interactive</h3>
+          <p class="card-desc">Interactive experiences, simulations, and real-time rendered worlds. Where technical depth and creative direction meet.</p>
+          <span class="card-tag">Interactive</span>
+        </article>
+
+        <article class="work-card">
+          <div class="card-icon" aria-hidden="true">🔬</div>
+          <h3 class="card-title">Research &amp; Exploration</h3>
+          <p class="card-desc">Reading, testing, writing. AI, computer science, whatever else ends up on the list. Understanding things properly matters.</p>
+          <span class="card-tag">Research</span>
+        </article>
+
+        <article class="work-card">
+          <div class="card-icon" aria-hidden="true">🛠️</div>
+          <h3 class="card-title">Tools &amp; Open Source</h3>
+          <p class="card-desc">Scripts, utilities, and libraries built to fill gaps. Open sourced when possible, if genuinely useful.</p>
+          <span class="card-tag">OSS</span>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section id="about">
+      <div class="about-inner">
+        <div class="about-text">
+          <p class="section-label">About</p>
+          <h2 class="section-title">What Radixen is.</h2>
+          <p class="about-p">
+            <strong>Radixen is an independent organization.</strong> We build things at the intersection of AI and real-world systems: live data feeds, computer vision, audio analysis, agents that act on your behalf without waiting to be asked. ML pipelines, intelligence dashboards, web apps, interactive media, research. Whatever the problem calls for.
+          </p>
+
+          <div class="disclaimer-bar">
+            <span class="disclaimer-icon" aria-hidden="true">ℹ</span>
+            <p class="disclaimer-text">
+              <strong>Disclaimer:</strong> Radixen is not a registered business, corporation, or commercial entity of any kind. Everything here is made and shared independently.
+            </p>
+          </div>
+        </div>
+
+
+      </div>
+    </section>
+
+    <!-- ============ CONTACT FLOW ============ -->
+    <section id="contact">
+      <div class="contact-wrapper">
+        <p class="section-label">Contact</p>
+        <h2 class="section-title">Want to get<br><span class="text-gradient">in touch?</span></h2>
+        <p class="section-subtitle contact-subtitle">
+          Pick what fits and we'll send you the right address.
+        </p>
+
+        <div class="contact-flow" id="contact-flow">
+
+          <!-- Step 0: Trigger -->
+          <div class="flow-step active" id="step-0">
+            <button class="cta-big" id="flow-start-btn" aria-label="Start contact flow">
+              Let's connect
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+
+          <!-- Step 1: Choose inquiry type -->
+          <div class="flow-step" id="step-1">
+            <h3 class="flow-heading">What brings you here?</h3>
+            <p class="flow-sub">Pick the one that fits.</p>
+            <div class="choice-grid" role="list">
+              <button class="choice-btn" data-choice="general" role="listitem">
+                <span class="choice-icon" aria-hidden="true">💬</span>
+                <div class="choice-text">
+                  <div class="choice-label">General or project inquiry</div>
+                  <div class="choice-desc">Questions, project ideas, collabs, anything else.</div>
+                </div>
+              </button>
+              <button class="choice-btn" data-choice="research" role="listitem">
+                <span class="choice-icon" aria-hidden="true">🔬</span>
+                <div class="choice-text">
+                  <div class="choice-label">Research collaboration</div>
+                  <div class="choice-desc">You want to think through something or work on something together.</div>
+                </div>
+              </button>
+              <button class="choice-btn" data-choice="urgent" role="listitem">
+                <span class="choice-icon" aria-hidden="true">🔒</span>
+                <div class="choice-text">
+                  <div class="choice-label">Security, legal, or urgent matter</div>
+                  <div class="choice-desc">Security disclosures, legal questions, anything urgent.</div>
+                </div>
+              </button>
+            </div>
+            <button class="flow-back" id="back-to-0">
+              <svg aria-hidden="true" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              Go back
+            </button>
+          </div>
+
+          <!-- Step 2a: General / Research result -->
+          <div class="flow-step" id="step-2a">
+            <span class="result-icon" id="result-icon-a" aria-hidden="true">✉️</span>
+            <h3 class="result-heading" id="result-heading-a">You're in the right place.</h3>
+            <p class="result-sub" id="result-sub-a">Drop us a message and we'll get back to you when we can.</p>
+            <div class="email-display">
+              <span class="email-address" id="email-a">contact@radixen.com</span>
+              <button class="copy-btn" id="copy-a" aria-label="Copy email address">copy</button>
+            </div>
+            <button class="flow-back" id="back-to-1-a">
+              <svg aria-hidden="true" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              Go back
+            </button>
+          </div>
+
+          <!-- Step 2b: Urgent / Security result -->
+          <div class="flow-step" id="step-2b">
+            <span class="result-icon" aria-hidden="true">🔐</span>
+            <h3 class="result-heading">Goes straight to admin.</h3>
+            <p class="result-sub">
+              Security issues, legal stuff, anything that needs direct attention. Share what you can.
+            </p>
+            <div class="email-display">
+              <span class="email-address">admin@radixen.com</span>
+              <button class="copy-btn" id="copy-b" aria-label="Copy admin email address">copy</button>
+            </div>
+            <button class="flow-back" id="back-to-1-b">
+              <svg aria-hidden="true" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              Go back
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer id="footer">
+    <img src="assets/logo.png" alt="Radixen" class="footer-logo">
+    <p class="footer-copy">© 2026 Radixen &nbsp;·&nbsp; Independent</p>
+    <ul class="footer-links" role="list">
+      <li><a href="#work">Areas</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="https://github.com/Radixen-Dev/" target="_blank" rel="noopener">GitHub</a></li>
+    </ul>
+  </footer>
+
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
