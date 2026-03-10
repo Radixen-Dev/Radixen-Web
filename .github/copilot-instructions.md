@@ -17,7 +17,7 @@ This is the official Radixen website. It is a **pure static site** — HTML, CSS
 | Scripts | `script.js` — vanilla JS, `'use strict'` |
 | Animations | GSAP 3.12.5 + ScrollTrigger via cdnjs CDN (**no SRI integrity hashes**) |
 | Fonts | Exo 2 (display) + JetBrains Mono (mono) via Google Fonts |
-| Hosting | Vercel (static) |
+| Hosting | GitHub Pages (static) |
 
 **Important:** Do NOT add `integrity` or `crossorigin` attributes to the GSAP `<script>` tags. They have caused resource-blocking errors in the past.
 
@@ -124,4 +124,4 @@ No install step. No build step.
 
 ## Deployment
 
-Deployed to Vercel as a static site. Do not add a `vercel.json` unless a specific routing rule is needed. The default static output configuration is sufficient.
+Deployed to GitHub Pages as a static site. The `CNAME` file in the repo root sets the custom domain (`radixen.com`). Pages is configured to serve from the `main` branch root (`/`). No build step or config file needed.

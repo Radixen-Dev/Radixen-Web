@@ -14,7 +14,7 @@ The official Radixen website. Static HTML/CSS/JS, no build step.
 | Styles | CSS3 (custom properties, grid, clamp) |
 | Animations | [GSAP 3](https://gsap.com/) + ScrollTrigger |
 | Fonts | Exo 2 + JetBrains Mono (Google Fonts) |
-| Hosting | Vercel |
+| Hosting | GitHub Pages |
 
 No framework. No build toolchain. No dependencies to install.
 
