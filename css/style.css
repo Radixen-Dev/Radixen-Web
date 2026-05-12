@@ -1416,7 +1416,7 @@ section {
 .result-sub {
   font-size: 0.875rem;
   color: rgba(252, 249, 249, 0.48);
-  max-width: 420px;
+  max-width: 520px;
   margin: 0 auto 1.85rem;
   line-height: 1.65;
 }
@@ -1557,7 +1557,11 @@ footer {
 }
 
 @media (max-width: 768px) {
-  nav { padding: 1.1rem 1.5rem; }
+  nav {
+    padding: 0 1.5rem;
+    height: 60px;
+    align-items: center;
+  }
 
   .nav-hamburger { display: flex; }
 
