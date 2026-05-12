@@ -1,6 +1,6 @@
 /* ============================================================
-   RADIXEN — script.js
-   Animations powered by GSAP + ScrollTrigger
+   RADIXEN — js/script.js  v2
+   Animations: GSAP + ScrollTrigger
    ============================================================ */
 
 'use strict';
@@ -8,7 +8,7 @@
 gsap.registerPlugin(ScrollTrigger);
 
 /* ============================================================
-   1. CANVAS — CONSTELLATION PARTICLE NETWORK
+   1. CANVAS — CONSTELLATION + MOUSE-REACTIVE PARTICLES
    ============================================================ */
 
 function initCanvas() {
@@ -16,27 +16,35 @@ function initCanvas() {
   if (!canvas) return;
 
   const ctx = canvas.getContext('2d');
-  const COUNT = window.innerWidth < 600 ? 48 : 88;
-  const MAX_DIST = 155;
-  const SPEED = 0.28;
+  const isMobile = window.innerWidth < 600;
+  const COUNT    = isMobile ? 52 : 95;
+  const MAX_DIST = 160;
+  const BASE_SPEED = 0.3;
+  const MOUSE_RADIUS = 130;
+  const MOUSE_FORCE  = 0.014;
+  const MAX_SPEED    = BASE_SPEED * 3.5;
 
   let W, H, particles = [];
   let running = true;
   let rafId;
+  let mouseX = -9999, mouseY = -9999;
 
+  /* ---- Setup -------------------------------------------- */
   function resize() {
     W = canvas.width  = canvas.offsetWidth;
     H = canvas.height = canvas.offsetHeight;
   }
 
   function createParticle() {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = BASE_SPEED * (0.5 + Math.random());
     return {
       x:  Math.random() * W,
       y:  Math.random() * H,
-      vx: (Math.random() - 0.5) * SPEED,
-      vy: (Math.random() - 0.5) * SPEED,
-      r:  Math.random() * 1.4 + 0.7,
-      a:  Math.random() * 0.35 + 0.15,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed,
+      r:  Math.random() * 1.5 + 0.6,
+      a:  Math.random() * 0.35 + 0.12,
     };
   }
 
@@ -44,6 +52,19 @@ function initCanvas() {
     particles = Array.from({ length: COUNT }, createParticle);
   }
 
+  /* ---- Mouse tracking ----------------------------------- */
+  canvas.addEventListener('mousemove', e => {
+    const rect = canvas.getBoundingClientRect();
+    mouseX = e.clientX - rect.left;
+    mouseY = e.clientY - rect.top;
+  });
+
+  canvas.addEventListener('mouseleave', () => {
+    mouseX = -9999;
+    mouseY = -9999;
+  });
+
+  /* ---- Draw loop ---------------------------------------- */
   function draw() {
     if (!running) return;
     ctx.clearRect(0, 0, W, H);
@@ -51,31 +72,64 @@ function initCanvas() {
     for (let i = 0; i < particles.length; i++) {
       const p = particles[i];
 
-      // Update position
+      /* Mouse attraction */
+      const mdx  = mouseX - p.x;
+      const mdy  = mouseY - p.y;
+      const mdst = Math.hypot(mdx, mdy);
+
+      if (mdst < MOUSE_RADIUS && mdst > 1) {
+        const force = (1 - mdst / MOUSE_RADIUS) * MOUSE_FORCE;
+        p.vx += (mdx / mdst) * force;
+        p.vy += (mdy / mdst) * force;
+
+        /* Clamp speed */
+        const spd = Math.hypot(p.vx, p.vy);
+        if (spd > MAX_SPEED) {
+          p.vx = (p.vx / spd) * MAX_SPEED;
+          p.vy = (p.vy / spd) * MAX_SPEED;
+        }
+      } else {
+        /* Gradually return to base speed */
+        const spd = Math.hypot(p.vx, p.vy);
+        if (spd > BASE_SPEED * 1.2) {
+          p.vx *= 0.993;
+          p.vy *= 0.993;
+        }
+      }
+
+      /* Move */
       p.x += p.vx;
       p.y += p.vy;
-      if (p.x < 0 || p.x > W) p.vx *= -1;
-      if (p.y < 0 || p.y > H) p.vy *= -1;
 
-      // Draw dot
+      /* Bounce off walls */
+      if (p.x < 0)  { p.x = 0;  p.vx = Math.abs(p.vx); }
+      if (p.x > W)  { p.x = W;  p.vx = -Math.abs(p.vx); }
+      if (p.y < 0)  { p.y = 0;  p.vy = Math.abs(p.vy); }
+      if (p.y > H)  { p.y = H;  p.vy = -Math.abs(p.vy); }
+
+      /* Draw dot */
+      const nearMouse = mdst < MOUSE_RADIUS * 0.5;
+      const alpha = nearMouse ? Math.min(p.a * 2.2, 0.9) : p.a;
       ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(89,187,215,${p.a})`;
+      ctx.arc(p.x, p.y, nearMouse ? p.r * 1.5 : p.r, 0, Math.PI * 2);
+      ctx.fillStyle = nearMouse
+        ? `rgba(89,187,215,${alpha})`
+        : `rgba(89,187,215,${alpha})`;
       ctx.fill();
 
-      // Draw connections to nearby particles
+      /* Draw connections */
       for (let j = i + 1; j < particles.length; j++) {
-        const q = particles[j];
+        const q  = particles[j];
         const dx = p.x - q.x;
         const dy = p.y - q.y;
         const dist = Math.hypot(dx, dy);
         if (dist < MAX_DIST) {
-          const alpha = (1 - dist / MAX_DIST) * 0.22;
+          const a = (1 - dist / MAX_DIST) * 0.2;
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
           ctx.lineTo(q.x, q.y);
-          ctx.strokeStyle = `rgba(40,136,194,${alpha})`;
-          ctx.lineWidth = 0.5;
+          ctx.strokeStyle = `rgba(40,136,194,${a})`;
+          ctx.lineWidth = 0.6;
           ctx.stroke();
         }
       }
@@ -84,7 +138,7 @@ function initCanvas() {
     rafId = requestAnimationFrame(draw);
   }
 
-  // Pause when hero leaves the viewport
+  /* ---- Visibility observer ------------------------------ */
   const heroSection = document.getElementById('hero');
   const obs = new IntersectionObserver(
     ([entry]) => {
@@ -103,10 +157,7 @@ function initCanvas() {
   init();
   draw();
 
-  window.addEventListener('resize', () => {
-    resize();
-    init();
-  });
+  window.addEventListener('resize', () => { resize(); init(); }, { passive: true });
 }
 
 /* ============================================================
@@ -122,7 +173,6 @@ function initNavbar() {
     onLeaveBack: () => navbar.classList.remove('scrolled'),
   });
 
-  // Fade out scroll indicator once user starts scrolling
   const scrollIndicator = document.getElementById('scroll-indicator');
   if (scrollIndicator) {
     ScrollTrigger.create({
@@ -134,7 +184,7 @@ function initNavbar() {
 }
 
 /* ============================================================
-   MOBILE NAV — hamburger toggle
+   3. MOBILE NAV — hamburger toggle
    ============================================================ */
 
 function initMobileNav() {
@@ -147,7 +197,6 @@ function initMobileNav() {
     hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
   });
 
-  // Close on nav link click
   document.querySelectorAll('.nav-links a').forEach(link => {
     link.addEventListener('click', () => {
       navbar.classList.remove('nav-open');
@@ -157,15 +206,14 @@ function initMobileNav() {
 }
 
 /* ============================================================
-   3. INTRO OVERLAY — plays once, then hero sequence follows
+   4. INTRO OVERLAY
    ============================================================ */
 
 function initIntro(onComplete) {
-  const overlay    = document.getElementById('intro-overlay');
-  const logoWrap   = document.getElementById('intro-logo-wrap');
-  const bar        = document.getElementById('intro-bar');
+  const overlay  = document.getElementById('intro-overlay');
+  const logoWrap = document.getElementById('intro-logo-wrap');
+  const bar      = document.getElementById('intro-bar');
 
-  // Prevent scroll during intro
   document.body.style.overflow = 'hidden';
 
   const tl = gsap.timeline({
@@ -175,39 +223,35 @@ function initIntro(onComplete) {
     },
   });
 
-  // 1 — Logo/wordmark snap in
-  tl.fromTo(logoWrap,
-    { opacity: 0, scale: 0.82, y: 16 },
-    { opacity: 1, scale: 1, y: 0, duration: 0.65, ease: 'expo.out' }
-  )
-  // 2 — Progress bar sweeps across
-  .to(bar,
-    { width: '100%', duration: 0.9, ease: 'power2.inOut' },
-    '+=0.15'
-  )
-  // 3 — Brief hold
-  .to({}, { duration: 0.12 })
-  // 4 — Logo/wordmark scale up and fade
-  .to(logoWrap,
-    { opacity: 0, scale: 1.12, duration: 0.45, ease: 'power3.in' },
-    '-=0.05'
-  )
-  // 5 — Overlay itself splits/slides out upward
-  .to(overlay,
-    { yPercent: -100, duration: 0.6, ease: 'expo.inOut' },
-    '-=0.15'
-  );
+  tl
+    .fromTo(logoWrap,
+      { opacity: 0, scale: 0.82, y: 16 },
+      { opacity: 1, scale: 1, y: 0, duration: 0.65, ease: 'expo.out' }
+    )
+    .to(bar,
+      { width: '100%', duration: 0.9, ease: 'power2.inOut' },
+      '+=0.15'
+    )
+    .to({}, { duration: 0.1 })
+    .to(logoWrap,
+      { opacity: 0, scale: 1.12, duration: 0.45, ease: 'power3.in' },
+      '-=0.05'
+    )
+    .to(overlay,
+      { yPercent: -100, duration: 0.6, ease: 'expo.inOut' },
+      '-=0.15'
+    );
 }
 
 /* ============================================================
-   4. HERO ANIMATIONS (page-load sequence)
+   5. HERO ANIMATIONS
    ============================================================ */
 
 function initHeroAnimations() {
   const titleEl = document.getElementById('hero-title');
   if (!titleEl) return;
 
-  // ---- Split RADIXEN into wrapped letter spans ----
+  /* Split RADIXEN into letter spans */
   const text = titleEl.textContent.trim();
   titleEl.innerHTML = '';
   [...text].forEach(char => {
@@ -220,18 +264,18 @@ function initHeroAnimations() {
     titleEl.appendChild(wrap);
   });
 
-  // ---- Set initial states ----
-  gsap.set('#hero-title',      { opacity: 1 }); // container visible; letters hidden by y-transform
-  gsap.set('#hero-logo',       { scale: 0.75, y: 10 });
-  gsap.set('#hero-eyebrow',    { y: 12 });
-  gsap.set('.letter',          { y: '115%' });
-  gsap.set('#hero-subtitle',   { y: 22 });
-  gsap.set('#hero-cta',        { y: 18 });
+  /* Initial states */
+  gsap.set('#hero-title',    { opacity: 1 });
+  gsap.set('#hero-logo',     { scale: 0.78, y: 10 });
+  gsap.set('#hero-eyebrow',  { y: 14 });
+  gsap.set('.letter',        { y: '115%' });
+  gsap.set('#hero-subtitle', { y: 24 });
+  gsap.set('#hero-cta',      { y: 18 });
 
-  // ---- Timeline ----
-  const tl = gsap.timeline({ delay: 0.15 });
+  const tl = gsap.timeline({ delay: 0.12 });
 
-  tl.to('#hero-logo', {
+  tl
+    .to('#hero-logo', {
       opacity: 1, scale: 1, y: 0,
       duration: 0.9, ease: 'expo.out',
     })
@@ -264,57 +308,89 @@ function initHeroAnimations() {
 }
 
 /* ============================================================
-   5. SCROLL-TRIGGERED ANIMATIONS
+   6. SCROLL-TRIGGERED ANIMATIONS
    ============================================================ */
 
 function initScrollAnimations() {
 
-  // Helper — simple fade-up with a ScrollTrigger
+  /* Helper */
   function fadeUp(targets, options = {}) {
-    const defaults = {
-      from:  { opacity: 0, y: 30 },
-      to:    { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' },
-      start: 'top 84%',
-    };
-    const from  = { ...defaults.from,  ...(options.from  || {}) };
-    const to    = { ...defaults.to,    ...(options.to    || {}) };
-    const start = options.start || defaults.start;
+    const from  = { opacity: 0, y: 30,   ...( options.from  || {} ) };
+    const to    = { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', ...(options.to || {}) };
+    const start = options.start || 'top 84%';
 
-    if (typeof targets === 'string') {
-      gsap.utils.toArray(targets).forEach((el, i) => {
-        gsap.fromTo(el, from, {
-          ...to,
-          delay: (options.stagger || 0) * i,
-          scrollTrigger: { trigger: el, start },
-        });
-      });
-    } else {
-      gsap.fromTo(targets, from, {
+    gsap.utils.toArray(targets).forEach((el, i) => {
+      gsap.fromTo(el, from, {
         ...to,
-        scrollTrigger: { trigger: targets, start },
+        delay: (options.stagger || 0) * i,
+        scrollTrigger: { trigger: el, start },
       });
-    }
+    });
   }
 
-  // Section labels, titles, subtitles
-  fadeUp('.section-label',    { from: { opacity: 0, y: 16 }, to: { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out' }, start: 'top 88%' });
+  /* Section labels, titles, subtitles */
+  fadeUp('.section-label',    { from: { opacity: 0, y: 14 }, to: { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, start: 'top 88%' });
   fadeUp('.section-title',    { from: { opacity: 0, y: 36 }, to: { opacity: 1, y: 0, duration: 0.75, ease: 'power3.out' }, start: 'top 84%' });
-  fadeUp('.section-subtitle', { from: { opacity: 0, y: 24 }, to: { opacity: 1, y: 0, duration: 0.7,  ease: 'power2.out' }, start: 'top 84%' });
+  fadeUp('.section-subtitle', { from: { opacity: 0, y: 22 }, to: { opacity: 1, y: 0, duration: 0.7,  ease: 'power2.out' }, start: 'top 84%' });
 
-  // Work cards — staggered per card
+  /* Areas / work cards — staggered */
   gsap.utils.toArray('.work-card').forEach((card, i) => {
     gsap.fromTo(card,
       { opacity: 0, y: 45 },
       {
         opacity: 1, y: 0,
         duration: 0.7, ease: 'power3.out',
-        delay: i * 0.08,
+        delay: i * 0.07,
         scrollTrigger: { trigger: card, start: 'top 88%' },
       }
     );
   });
 
-  // About text paragraphs
+  /* Services heading */
+  fadeUp('.services-header .section-title',    { from: { opacity: 0, y: 36 }, start: 'top 84%' });
+  fadeUp('.services-header .section-subtitle', { from: { opacity: 0, y: 22 }, start: 'top 84%' });
+
+  /* Service cards */
+  gsap.utils.toArray('.service-card').forEach((card, i) => {
+    gsap.fromTo(card,
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1, y: 0,
+        duration: 0.72, ease: 'power3.out',
+        delay: i * 0.1,
+        scrollTrigger: { trigger: card, start: 'top 88%' },
+      }
+    );
+  });
+
+  /* Portfolio header */
+  fadeUp('.portfolio-title',    { from: { opacity: 0, y: 30 }, start: 'top 88%' });
+  fadeUp('.portfolio-subtitle', { from: { opacity: 0, y: 16 }, start: 'top 88%' });
+
+  /* Portfolio cards */
+  gsap.utils.toArray('.portfolio-card').forEach((card, i) => {
+    gsap.fromTo(card,
+      { opacity: 0, y: 55, scale: 0.97 },
+      {
+        opacity: 1, y: 0, scale: 1,
+        duration: 0.8, ease: 'power3.out',
+        delay: i * 0.12,
+        scrollTrigger: { trigger: card, start: 'top 88%' },
+      }
+    );
+  });
+
+  /* Services CTA block */
+  gsap.fromTo('.services-cta-block',
+    { opacity: 0, y: 35 },
+    {
+      opacity: 1, y: 0,
+      duration: 0.8, ease: 'power3.out',
+      scrollTrigger: { trigger: '.services-cta-block', start: 'top 85%' },
+    }
+  );
+
+  /* About paragraphs */
   gsap.utils.toArray('.about-p').forEach((p, i) => {
     gsap.fromTo(p,
       { opacity: 0, y: 22 },
@@ -327,9 +403,9 @@ function initScrollAnimations() {
     );
   });
 
-  // Disclaimer
+  /* Disclaimer */
   gsap.fromTo('.disclaimer-bar',
-    { opacity: 0, y: 20 },
+    { opacity: 0, y: 18 },
     {
       opacity: 1, y: 0,
       duration: 0.6, ease: 'power2.out',
@@ -337,9 +413,9 @@ function initScrollAnimations() {
     }
   );
 
-  // Contact flow wrapper
+  /* Contact flow */
   gsap.fromTo('.contact-flow',
-    { opacity: 0, y: 30 },
+    { opacity: 0, y: 28 },
     {
       opacity: 1, y: 0,
       duration: 0.75, ease: 'power3.out',
@@ -349,14 +425,19 @@ function initScrollAnimations() {
 }
 
 /* ============================================================
-   5. CONTACT FLOW — MULTI-STEP
+   7. CONTACT FLOW — MULTI-STEP
    ============================================================ */
 
 function initContactFlow() {
   let currentStep = 'step-0';
   let isAnimating = false;
 
-  // On load, make step-0 visible immediately (no animation needed for it)
+  // Email assembled at runtime - never a plain string in source
+  const _e = ['contact', String.fromCharCode(64), 'radixen', '.', 'com'].join('');
+
+  // Populate the display span without hardcoding the address in HTML
+  document.getElementById('email-a').textContent = _e;
+
   gsap.set('#step-0', { opacity: 1 });
 
   function showStep(targetId, direction = 'forward') {
@@ -391,7 +472,7 @@ function initContactFlow() {
     });
   }
 
-  /* ---- Event listeners ---- */
+  /* ---- Listeners ---------------------------------------- */
 
   document.getElementById('flow-start-btn').addEventListener('click', () => {
     showStep('step-1', 'forward');
@@ -401,21 +482,23 @@ function initContactFlow() {
     btn.addEventListener('click', () => {
       const choice = btn.dataset.choice;
 
+      /* URGENT OPTION: commented out until admin@radixen.com is active
       if (choice === 'urgent') {
         showStep('step-2b', 'forward');
         return;
       }
+      */
 
-      // Customise the result UI before showing it
       const icon    = document.getElementById('result-icon-a');
       const heading = document.getElementById('result-heading-a');
       const sub     = document.getElementById('result-sub-a');
 
-      if (choice === 'research') {
-        icon.textContent    = '🔬';
-        heading.textContent = "Let's think together.";
-        sub.textContent     = "Send over what you're working on. Proposals, ideas, half-formed questions — all fine.";
+      if (choice === 'webdesign') {
+        icon.textContent    = '🎨';
+        heading.textContent = "Let's build something great.";
+        sub.textContent     = "Tell us about your project - scope, ideas, timeline. We'll get back to you.";
       } else {
+        /* general / research */
         icon.textContent    = '✉️';
         heading.textContent = "That's the one.";
         sub.textContent     = "Send whatever you've got. We'll get back to you.";
@@ -425,11 +508,11 @@ function initContactFlow() {
     });
   });
 
-  document.getElementById('back-to-0')   .addEventListener('click', () => showStep('step-0',  'backward'));
-  document.getElementById('back-to-1-a') .addEventListener('click', () => showStep('step-1',  'backward'));
-  document.getElementById('back-to-1-b') .addEventListener('click', () => showStep('step-1',  'backward'));
+  document.getElementById('back-to-0')   .addEventListener('click', () => showStep('step-0', 'backward'));
+  document.getElementById('back-to-1-a') .addEventListener('click', () => showStep('step-1', 'backward'));
+  // document.getElementById('back-to-1-b') .addEventListener('click', () => showStep('step-1', 'backward'));
 
-  /* ---- Copy-to-clipboard ---- */
+  /* ---- Copy to clipboard -------------------------------- */
   function setupCopy(btnId, email) {
     document.getElementById(btnId).addEventListener('click', async () => {
       const btn = document.getElementById(btnId);
@@ -442,43 +525,42 @@ function initContactFlow() {
           btn.classList.remove('copied');
         }, 2200);
       } catch (_) {
-        // Clipboard API unavailable — silently ignore; user can copy the text manually
         btn.textContent = 'unavailable';
         setTimeout(() => { btn.textContent = 'copy'; }, 2200);
       }
     });
   }
 
-  setupCopy('copy-a', 'contact@radixen.com');
-  setupCopy('copy-b', 'admin@radixen.com');
+  setupCopy('copy-a', _e);
+  // setupCopy('copy-b', /* admin email - inactive */ '');
 }
 
 /* ============================================================
-   6. SUBTLE CURSOR GLOW  (desktop only, respects reduced-motion)
+   8. CURSOR GLOW  (desktop, respects reduced-motion)
    ============================================================ */
 
 function initCursorGlow() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  if (window.matchMedia('(hover: none)').matches) return; // Touch device
+  if (window.matchMedia('(hover: none)').matches) return;
 
   const glow = document.createElement('div');
   glow.style.cssText = [
     'pointer-events:none',
     'position:fixed',
-    'top:0', 'left:0',
-    'width:300px', 'height:300px',
+    'top:0','left:0',
+    'width:340px','height:340px',
     'transform:translate(-50%,-50%)',
     'border-radius:50%',
-    'background:radial-gradient(circle, rgba(89,187,215,0.055) 0%, transparent 70%)',
+    'background:radial-gradient(circle, rgba(89,187,215,0.05) 0%, transparent 70%)',
     'z-index:9999',
-    'transition:opacity 0.4s ease',
+    'transition:opacity 0.45s ease',
     'opacity:0',
   ].join(';');
   document.body.appendChild(glow);
 
   document.addEventListener('mousemove', e => {
     glow.style.opacity = '1';
-    gsap.to(glow, { x: e.clientX, y: e.clientY, duration: 0.55, ease: 'power2.out', overwrite: true });
+    gsap.to(glow, { x: e.clientX, y: e.clientY, duration: 0.6, ease: 'power2.out', overwrite: true });
   });
 
   document.addEventListener('mouseleave', () => { glow.style.opacity = '0'; });
@@ -489,9 +571,12 @@ function initCursorGlow() {
    ============================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Hide hero elements immediately so they're invisible during the intro overlay
-  gsap.set(['#hero-logo', '#nav-logo', '#hero-eyebrow', '#hero-title',
-            '#hero-subtitle', '#hero-cta', '#scroll-indicator'], { opacity: 0 });
+  /* Hide hero elements before intro plays */
+  gsap.set(
+    ['#hero-logo', '#nav-logo', '#hero-eyebrow', '#hero-title',
+     '#hero-subtitle', '#hero-cta', '#scroll-indicator'],
+    { opacity: 0 }
+  );
 
   initCanvas();
   initNavbar();
@@ -500,7 +585,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initContactFlow();
   initCursorGlow();
 
-  // Run intro first, then kick off hero animations
   initIntro(() => {
     initHeroAnimations();
   });
