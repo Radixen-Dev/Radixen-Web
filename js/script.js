@@ -346,6 +346,46 @@ function initScrollAnimations() {
     );
   });
 
+  /* Projects section — info side */
+  fadeUp('.project-meta',    { from: { opacity: 0, y: 16 }, to: { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, start: 'top 86%' });
+  fadeUp('.project-name',    { from: { opacity: 0, y: 32 }, to: { opacity: 1, y: 0, duration: 0.75, ease: 'power3.out' }, start: 'top 84%' });
+  fadeUp('.project-tagline', { from: { opacity: 0, y: 20 }, start: 'top 84%' });
+  fadeUp('.project-desc',    { from: { opacity: 0, y: 18 }, start: 'top 84%' });
+  fadeUp('.project-tags',    { from: { opacity: 0, y: 14 }, start: 'top 84%' });
+  fadeUp('.project-actions', { from: { opacity: 0, y: 14 }, start: 'top 84%' });
+
+  /* Projects section — chat demo */
+  const chatEl = document.querySelector('.project-chat');
+  if (chatEl) {
+    gsap.fromTo('.project-chat',
+      { opacity: 0, y: 40, scale: 0.97 },
+      {
+        opacity: 1, y: 0, scale: 1,
+        duration: 0.85, ease: 'power3.out',
+        scrollTrigger: { trigger: '.project-chat', start: 'top 84%' },
+      }
+    );
+
+    const chatSteps = chatEl.querySelectorAll('[data-chat-step]');
+    gsap.set(chatSteps, { opacity: 0, y: 10 });
+
+    ScrollTrigger.create({
+      trigger: '.project-chat',
+      start: 'top 76%',
+      once: true,
+      onEnter: () => {
+        const tl = gsap.timeline({ delay: 0.5 });
+        tl.to('[data-chat-step="0"]', { opacity: 1, y: 0, duration: 0.4,  ease: 'power2.out' });
+        tl.to('[data-chat-step="1"]', { opacity: 1, y: 0, duration: 0.4,  ease: 'power2.out' }, '+=0.55');
+        tl.to('[data-chat-step="2"]', { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' }, '+=0.45');
+        tl.to('[data-chat-step="3"]', { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' }, '+=0.3');
+        tl.to('[data-chat-step="4"]', { opacity: 1, y: 0, duration: 0.3,  ease: 'power2.out' }, '+=0.45');
+        tl.to('[data-chat-step="4"]', { opacity: 0, duration: 0.2, ease: 'power2.in' },         '+=1.0');
+        tl.to('[data-chat-step="5"]', { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' }, '+=0.1');
+      },
+    });
+  }
+
   /* Services heading */
   fadeUp('.services-header .section-title',    { from: { opacity: 0, y: 36 }, start: 'top 84%' });
   fadeUp('.services-header .section-subtitle', { from: { opacity: 0, y: 22 }, start: 'top 84%' });

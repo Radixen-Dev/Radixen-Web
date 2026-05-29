@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Radixen builds software, AI systems, and professional web experiences. Web design and development services available." />
+  <meta name="description" content="Radixen builds software, AI systems, open source tools, and web experiences. Independent organization shipping across the full stack." />
   <meta name="theme-color" content="#171B33" />
-  <title>Radixen - Software &amp; Web Design</title>
+  <title>Radixen - Software, AI &amp; Open Source</title>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,6 +32,7 @@
     </a>
     <ul class="nav-links" role="list">
       <li><a href="#work">Areas</a></li>
+      <li class="nav-projects-link"><a href="#projects">Projects</a></li>
       <li class="nav-services-link"><a href="#services">Services</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#contact">Contact</a></li>
@@ -52,7 +53,7 @@
       <div class="hero-content">
         <img src="assets/logo.png" alt="Radixen logo" class="hero-logo" id="hero-logo">
 
-        <p class="hero-eyebrow" id="hero-eyebrow">// Est. 2025 &middot; Software &amp; Web Design</p>
+        <p class="hero-eyebrow" id="hero-eyebrow">// Est. 2025 &middot; Software, AI &amp; Open Source</p>
 
         <h1 class="hero-title" id="hero-title" aria-label="RADIXEN">RADIXEN</h1>
 
@@ -66,9 +67,9 @@
             What we build
             <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
-          <a href="#services" class="btn-ghost btn-services">
-            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-            Web design services
+          <a href="#projects" class="btn-ghost btn-projects">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            Latest release
           </a>
         </div>
       </div>
@@ -142,6 +143,116 @@
           <p class="card-desc">Scripts, utilities, and libraries built to fill gaps. Released as open source whenever it makes sense.</p>
           <span class="card-tag">OSS</span>
         </article>
+
+      </div>
+    </section>
+
+    <!-- ============ PROJECTS: OPEN SOURCE ============ -->
+    <section id="projects">
+      <p class="section-label">Open Source</p>
+      <h2 class="section-title">We ship tools<br><span class="text-gradient">in the open.</span></h2>
+      <p class="section-subtitle">
+        We build things that fill gaps. When something is useful enough to share, we ship it in the open.
+      </p>
+
+      <div class="project-spotlight">
+
+        <div class="project-spotlight-info">
+          <div class="project-meta">
+            <span class="project-release-badge">
+              <span class="project-release-dot" aria-hidden="true"></span>
+              v0.1.1 &nbsp;&middot;&nbsp; Latest Release
+            </span>
+            <span class="project-lang-badge">Go</span>
+          </div>
+
+          <h3 class="project-name">handoff</h3>
+          <p class="project-tagline">Transfer knowledge between AI agent sessions.</p>
+          <p class="project-desc">
+            When an agent's context window fills up, accumulated project knowledge is lost. <code>handoff</code> stores structured knowledge packages to a local SQLite database and retrieves them in the next session: no cloud, no config, no server.
+          </p>
+
+          <div class="project-tags" aria-label="Technologies">
+            <span>Go</span>
+            <span>CLI</span>
+            <span>SQLite</span>
+            <span>macOS</span>
+            <span>Linux</span>
+            <span>Windows</span>
+          </div>
+
+          <div class="project-actions">
+            <a href="https://github.com/Radixen-Dev/handoff" target="_blank" rel="noopener" class="btn-primary">
+              View on GitHub
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="https://radixen-dev.github.io/handoff/" target="_blank" rel="noopener" class="btn-ghost">
+              Documentation
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="project-chat" role="img" aria-label="handoff demo: seamless AI context across sessions">
+          <div class="chat-chrome">
+            <div class="chat-dots" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </div>
+            <span class="chat-chrome-title">AI Assistant</span>
+          </div>
+          <div class="chat-body">
+
+            <!-- Step 0: AI context limit warning -->
+            <div class="chat-msg chat-msg-ai" data-chat-step="0">
+              <div class="chat-avatar">✦</div>
+              <div class="chat-bubble">
+                <span class="chat-warn-icon">&#9888;</span> I&rsquo;m at my context limit. Using handoff to save our session&hellip;
+              </div>
+            </div>
+
+            <!-- Step 1: saved confirmation with handoff ID -->
+            <div class="chat-msg chat-msg-ai" data-chat-step="1">
+              <div class="chat-avatar">✦</div>
+              <div class="chat-bubble chat-bubble-success">
+                <span class="chat-tick">&#10003;</span> Saved. Share this ID in your next chat:
+                <div class="chat-id-pill">
+                  <span class="chat-id-text">a3f9c12e</span>
+                  <span class="chat-id-label">handoff id</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 2: new session divider -->
+            <div class="chat-session-divider" data-chat-step="2">New Session</div>
+
+            <!-- Step 3: user opens new session with handoff ID -->
+            <div class="chat-msg chat-msg-user" data-chat-step="3">
+              <div class="chat-bubble-user">
+                Hey! Handoff ID: <span class="chat-id-inline">a3f9c12e</span>
+              </div>
+            </div>
+
+            <!-- Step 4: AI typing indicator -->
+            <div class="chat-typing" data-chat-step="4">
+              <div class="chat-avatar">✦</div>
+              <div class="chat-bubble-typing">
+                <span></span><span></span><span></span>
+              </div>
+            </div>
+
+            <!-- Step 5: AI session restored -->
+            <div class="chat-msg chat-msg-ai" data-chat-step="5">
+              <div class="chat-avatar">✦</div>
+              <div class="chat-bubble">
+                Welcome back! Session restored. We were working on the JWT auth flow. Ready to continue?
+                <div class="chat-context-tags">
+                  <span>auth flow</span><span>JWT tokens</span><span>token families</span><span>+9 topics</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
 
       </div>
     </section>
@@ -252,71 +363,8 @@
         </div>
       </div>
 
-      <!-- Portfolio showcase -->
-      <div class="portfolio-section">
-        <div class="portfolio-header">
-          <p class="section-label">Portfolio</p>
-          <h3 class="portfolio-title">Our work speaks<br><span class="text-gradient">for itself.</span></h3>
-          <p class="portfolio-subtitle">// Projects in progress - full portfolio launching soon</p>
-        </div>
-
-        <div class="portfolio-grid">
-
-          <article class="portfolio-card portfolio-card--blue">
-            <div class="portfolio-card-bg" aria-hidden="true"></div>
-            <div class="portfolio-card-content">
-              <span class="portfolio-status">In Development</span>
-              <div class="portfolio-card-body">
-                <span class="portfolio-type">Brand &amp; Identity</span>
-                <h4 class="portfolio-name">Portfolio Website</h4>
-                <p class="portfolio-card-desc">A complete brand identity and web presence for a creative professional.</p>
-              </div>
-              <div class="portfolio-tags" aria-label="Technologies">
-                <span>HTML/CSS</span>
-                <span>JavaScript</span>
-                <span>GSAP</span>
-              </div>
-            </div>
-          </article>
-
-          <article class="portfolio-card portfolio-card--cyan">
-            <div class="portfolio-card-bg" aria-hidden="true"></div>
-            <div class="portfolio-card-content">
-              <span class="portfolio-status">In Development</span>
-              <div class="portfolio-card-body">
-                <span class="portfolio-type">Web Application</span>
-                <h4 class="portfolio-name">SaaS Dashboard</h4>
-                <p class="portfolio-card-desc">A data-rich web application with real-time updates and custom analytics views.</p>
-              </div>
-              <div class="portfolio-tags" aria-label="Technologies">
-                <span>React</span>
-                <span>Node.js</span>
-                <span>PostgreSQL</span>
-              </div>
-            </div>
-          </article>
-
-          <article class="portfolio-card portfolio-card--mid">
-            <div class="portfolio-card-bg" aria-hidden="true"></div>
-            <div class="portfolio-card-content">
-              <span class="portfolio-status">Coming Soon</span>
-              <div class="portfolio-card-body">
-                <span class="portfolio-type">Landing Page</span>
-                <h4 class="portfolio-name">Product Launch</h4>
-                <p class="portfolio-card-desc">A motion-rich, conversion-optimized landing page for a product launch.</p>
-              </div>
-              <div class="portfolio-tags" aria-label="Technologies">
-                <span>Next.js</span>
-                <span>GSAP</span>
-                <span>Tailwind</span>
-              </div>
-            </div>
-          </article>
-
-        </div>
-
-        <p class="portfolio-coming-soon">This section will be populated with client work as projects are completed. Check back soon.</p>
-      </div>
+      <!-- Portfolio: coming soon -->
+      <p class="portfolio-coming-soon">// Client portfolio launching soon. Work in progress.</p>
 
       <!-- CTA -->
       <div class="services-cta-block">
@@ -460,6 +508,7 @@
     </div>
     <ul class="footer-links" role="list">
       <li><a href="#work">Areas</a></li>
+      <li><a href="#projects">Projects</a></li>
       <li><a href="#services">Services</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#contact">Contact</a></li>
