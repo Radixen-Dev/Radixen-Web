@@ -148,6 +148,7 @@
   color: rgba(252, 249, 249, 0.42);
   max-width: 520px;
   line-height: 1.75;
+  text-wrap: balance;
   opacity: 0;
 }
 
