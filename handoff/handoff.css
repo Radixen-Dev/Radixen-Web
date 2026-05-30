@@ -121,14 +121,7 @@
   letter-spacing: -0.04em;
   margin: 0;
   opacity: 0;
-}
-
-.hf-title-word {
-  color: var(--white);
-}
-
-.hf-title-accent {
-  background: linear-gradient(110deg, var(--cyan) 0%, var(--mid-blue) 100%);
+  background: linear-gradient(110deg, var(--white) 30%, var(--cyan) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
