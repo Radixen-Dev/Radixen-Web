@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="handoff — Transfer knowledge between AI agent sessions. A local CLI that stores structured knowledge packages in SQLite so agents resume exactly where they left off." />
   <meta name="theme-color" content="#171B33" />
+  <link rel="icon" href="../assets/logo.png" type="image/png">
   <title>handoff by Radixen</title>
 
   <!-- Fonts -->
@@ -357,82 +358,163 @@
         Add an instruction file to your project. The agent will automatically check for existing packages at session start, offer proactive transfers when context grows large, and respond to "do a handoff".
       </p>
 
-      <div class="hf-agents-grid">
-
-        <div class="hf-agent-card" id="hf-agent-copilot">
-          <div class="hf-agent-header">
-            <span class="hf-agent-name">GitHub Copilot</span>
-            <span class="hf-agent-type">Always-on</span>
-          </div>
-          <div class="hf-code-block hf-code-block-sm">
-            <div class="hf-code-block-header">
-              <span class="hf-code-lang">bash</span>
-              <button class="hf-copy-btn" aria-label="Copy" data-copy="curl -fsSL https://raw.githubusercontent.com/Radixen-Dev/handoff/main/instructions/copilot-instructions.md -o .github/copilot-instructions.md">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                <span>copy</span>
-              </button>
-            </div>
-            <pre class="hf-code hf-code-wrap"><span class="hf-c-prompt">$</span> curl -fsSL https://raw.githubusercontent.com/Radixen-Dev/handoff/main/instructions/copilot-instructions.md -o .github/copilot-instructions.md</pre>
-          </div>
-        </div>
-
-        <div class="hf-agent-card" id="hf-agent-claude">
-          <div class="hf-agent-header">
-            <span class="hf-agent-name">Claude Code</span>
-            <span class="hf-agent-type">Always-on</span>
-          </div>
-          <div class="hf-code-block hf-code-block-sm">
-            <div class="hf-code-block-header">
-              <span class="hf-code-lang">bash</span>
-              <button class="hf-copy-btn" aria-label="Copy" data-copy="curl -fsSL https://raw.githubusercontent.com/Radixen-Dev/handoff/main/instructions/CLAUDE.md -o CLAUDE.md">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                <span>copy</span>
-              </button>
-            </div>
-            <pre class="hf-code hf-code-wrap"><span class="hf-c-prompt">$</span> curl -fsSL https://raw.githubusercontent.com/Radixen-Dev/handoff/main/instructions/CLAUDE.md -o CLAUDE.md</pre>
-          </div>
-        </div>
-
-        <div class="hf-agent-card" id="hf-agent-codex">
-          <div class="hf-agent-header">
-            <span class="hf-agent-name">OpenAI Codex</span>
-            <span class="hf-agent-type">Always-on</span>
-          </div>
-          <div class="hf-code-block hf-code-block-sm">
-            <div class="hf-code-block-header">
-              <span class="hf-code-lang">bash</span>
-              <button class="hf-copy-btn" aria-label="Copy" data-copy="curl -fsSL https://raw.githubusercontent.com/Radixen-Dev/handoff/main/instructions/AGENTS.md -o AGENTS.md">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                <span>copy</span>
-              </button>
-            </div>
-            <pre class="hf-code hf-code-wrap"><span class="hf-c-prompt">$</span> curl -fsSL https://raw.githubusercontent.com/Radixen-Dev/handoff/main/instructions/AGENTS.md -o AGENTS.md</pre>
-          </div>
-        </div>
-
-        <div class="hf-agent-card" id="hf-agent-cursor">
-          <div class="hf-agent-header">
-            <span class="hf-agent-name">Cursor</span>
-            <span class="hf-agent-type">Always-on</span>
-          </div>
-          <div class="hf-code-block hf-code-block-sm">
-            <div class="hf-code-block-header">
-              <span class="hf-code-lang">bash</span>
-              <button class="hf-copy-btn" aria-label="Copy" data-copy="curl -fsSL https://raw.githubusercontent.com/Radixen-Dev/handoff/main/instructions/cursor.mdc -o .cursor/rules/handoff.mdc">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                <span>copy</span>
-              </button>
-            </div>
-            <pre class="hf-code hf-code-wrap"><span class="hf-c-prompt">$</span> curl -fsSL https://raw.githubusercontent.com/Radixen-Dev/handoff/main/instructions/cursor.mdc -o .cursor/rules/handoff.mdc</pre>
-          </div>
-        </div>
-
+      <!-- Mode toggle -->
+      <div class="hf-mode-toggle" role="tablist" aria-label="Setup mode">
+        <button class="hf-mode-btn hf-mode-btn--active" role="tab" aria-selected="true" aria-controls="hf-panel-always" id="hf-tab-always" data-mode="always">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          Always-on
+          <span class="hf-mode-desc">Runs every session automatically</span>
+        </button>
+        <button class="hf-mode-btn" role="tab" aria-selected="false" aria-controls="hf-panel-skills" id="hf-tab-skills" data-mode="skills">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+          On-demand Skills
+          <span class="hf-mode-desc">Load handoff only when you ask</span>
+        </button>
+        <div class="hf-mode-indicator" aria-hidden="true"></div>
       </div>
 
-      <p class="hf-agents-note">
-        Prefer on-demand loading? Skill files for Copilot, Codex, and Claude are also available.
-        <a href="https://radixen-dev.github.io/handoff/agents/" target="_blank" rel="noopener" class="hf-link">Full agent setup guide &rarr;</a>
-      </p>
+      <!-- Panel: Always-on -->
+      <div class="hf-agents-panel" id="hf-panel-always" role="tabpanel" aria-labelledby="hf-tab-always">
+        <div class="hf-agents-grid">
+
+          <div class="hf-agent-card">
+            <div class="hf-agent-header">
+              <span class="hf-agent-name">GitHub Copilot</span>
+              <span class="hf-agent-type">Always-on</span>
+            </div>
+            <div class="hf-code-block hf-code-block-sm">
+              <div class="hf-code-block-header">
+                <span class="hf-code-lang">bash</span>
+                <button class="hf-copy-btn" aria-label="Copy" data-copy="curl -fsSL https://raw.githubusercontent.com/Radixen-Dev/handoff/main/instructions/copilot-instructions.md -o .github/copilot-instructions.md">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <span>copy</span>
+                </button>
+              </div>
+              <pre class="hf-code hf-code-wrap"><span class="hf-c-prompt">$</span> curl -fsSL https://raw.githubusercontent.com/Radixen-Dev/handoff/main/instructions/copilot-instructions.md -o .github/copilot-instructions.md</pre>
+            </div>
+          </div>
+
+          <div class="hf-agent-card">
+            <div class="hf-agent-header">
+              <span class="hf-agent-name">Claude Code</span>
+              <span class="hf-agent-type">Always-on</span>
+            </div>
+            <div class="hf-code-block hf-code-block-sm">
+              <div class="hf-code-block-header">
+                <span class="hf-code-lang">bash</span>
+                <button class="hf-copy-btn" aria-label="Copy" data-copy="curl -fsSL https://raw.githubusercontent.com/Radixen-Dev/handoff/main/instructions/CLAUDE.md -o CLAUDE.md">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <span>copy</span>
+                </button>
+              </div>
+              <pre class="hf-code hf-code-wrap"><span class="hf-c-prompt">$</span> curl -fsSL https://raw.githubusercontent.com/Radixen-Dev/handoff/main/instructions/CLAUDE.md -o CLAUDE.md</pre>
+            </div>
+          </div>
+
+          <div class="hf-agent-card">
+            <div class="hf-agent-header">
+              <span class="hf-agent-name">OpenAI Codex</span>
+              <span class="hf-agent-type">Always-on</span>
+            </div>
+            <div class="hf-code-block hf-code-block-sm">
+              <div class="hf-code-block-header">
+                <span class="hf-code-lang">bash</span>
+                <button class="hf-copy-btn" aria-label="Copy" data-copy="curl -fsSL https://raw.githubusercontent.com/Radixen-Dev/handoff/main/instructions/AGENTS.md -o AGENTS.md">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <span>copy</span>
+                </button>
+              </div>
+              <pre class="hf-code hf-code-wrap"><span class="hf-c-prompt">$</span> curl -fsSL https://raw.githubusercontent.com/Radixen-Dev/handoff/main/instructions/AGENTS.md -o AGENTS.md</pre>
+            </div>
+          </div>
+
+          <div class="hf-agent-card">
+            <div class="hf-agent-header">
+              <span class="hf-agent-name">Cursor</span>
+              <span class="hf-agent-type">Always-on</span>
+            </div>
+            <div class="hf-code-block hf-code-block-sm">
+              <div class="hf-code-block-header">
+                <span class="hf-code-lang">bash</span>
+                <button class="hf-copy-btn" aria-label="Copy" data-copy="curl -fsSL https://raw.githubusercontent.com/Radixen-Dev/handoff/main/instructions/cursor.mdc -o .cursor/rules/handoff.mdc">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <span>copy</span>
+                </button>
+              </div>
+              <pre class="hf-code hf-code-wrap"><span class="hf-c-prompt">$</span> curl -fsSL https://raw.githubusercontent.com/Radixen-Dev/handoff/main/instructions/cursor.mdc -o .cursor/rules/handoff.mdc</pre>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Panel: On-demand Skills -->
+      <div class="hf-agents-panel hf-agents-panel--hidden" id="hf-panel-skills" role="tabpanel" aria-labelledby="hf-tab-skills">
+        <p class="hf-skills-intro">
+          Skills are loaded only when you explicitly ask — <em>"use the handoff skill"</em> or <em>"do a handoff"</em>. No persistent instruction file needed. Ideal when you want handoff available without it running on every session.
+        </p>
+        <div class="hf-agents-grid hf-skills-grid">
+
+          <div class="hf-agent-card">
+            <div class="hf-agent-header">
+              <span class="hf-agent-name">GitHub Copilot</span>
+              <span class="hf-agent-type hf-agent-type--skill">On-demand</span>
+            </div>
+            <p class="hf-agent-skill-desc">Place the skill file in your VS Code user prompts folder. Copilot loads it when referenced in chat.</p>
+            <div class="hf-code-block hf-code-block-sm">
+              <div class="hf-code-block-header">
+                <span class="hf-code-lang">bash</span>
+                <button class="hf-copy-btn" aria-label="Copy" data-copy="curl -fsSL https://raw.githubusercontent.com/Radixen-Dev/handoff/main/skills/copilot-skill.md -o ~/Library/Application\ Support/Code/User/prompts/handoff.prompt.md">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <span>copy</span>
+                </button>
+              </div>
+              <pre class="hf-code hf-code-wrap"><span class="hf-c-prompt">$</span> curl -fsSL https://raw.githubusercontent.com/Radixen-Dev/handoff/main/skills/copilot-skill.md \
+    -o ~/Library/Application\ Support/Code/User/prompts/handoff.prompt.md</pre>
+            </div>
+          </div>
+
+          <div class="hf-agent-card">
+            <div class="hf-agent-header">
+              <span class="hf-agent-name">Claude Code</span>
+              <span class="hf-agent-type hf-agent-type--skill">On-demand</span>
+            </div>
+            <p class="hf-agent-skill-desc">Add as a slash command. Type <code>/handoff</code> in any Claude session to trigger a knowledge transfer.</p>
+            <div class="hf-code-block hf-code-block-sm">
+              <div class="hf-code-block-header">
+                <span class="hf-code-lang">bash</span>
+                <button class="hf-copy-btn" aria-label="Copy" data-copy="curl -fsSL https://raw.githubusercontent.com/Radixen-Dev/handoff/main/skills/claude-skill.md -o ~/.claude/commands/handoff.md">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <span>copy</span>
+                </button>
+              </div>
+              <pre class="hf-code hf-code-wrap"><span class="hf-c-prompt">$</span> curl -fsSL https://raw.githubusercontent.com/Radixen-Dev/handoff/main/skills/claude-skill.md \
+    -o ~/.claude/commands/handoff.md</pre>
+            </div>
+          </div>
+
+          <div class="hf-agent-card">
+            <div class="hf-agent-header">
+              <span class="hf-agent-name">OpenAI Codex</span>
+              <span class="hf-agent-type hf-agent-type--skill">On-demand</span>
+            </div>
+            <p class="hf-agent-skill-desc">Reference the skill inline. Ask Codex to "load the handoff skill" at the start of any session.</p>
+            <div class="hf-code-block hf-code-block-sm">
+              <div class="hf-code-block-header">
+                <span class="hf-code-lang">bash</span>
+                <button class="hf-copy-btn" aria-label="Copy" data-copy="curl -fsSL https://raw.githubusercontent.com/Radixen-Dev/handoff/main/skills/codex-skill.md -o ~/.codex/instructions/handoff.md">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <span>copy</span>
+                </button>
+              </div>
+              <pre class="hf-code hf-code-wrap"><span class="hf-c-prompt">$</span> curl -fsSL https://raw.githubusercontent.com/Radixen-Dev/handoff/main/skills/codex-skill.md \
+    -o ~/.codex/instructions/handoff.md</pre>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
     </section>
 
     <!-- ============ CTA / FOOTER ============ -->

@@ -318,6 +318,74 @@ function initCursorGlow() {
 }
 
 /* ============================================================
+   MODE TOGGLE (Always-on / On-demand Skills)
+   ============================================================ */
+function initModeToggle() {
+  const toggle   = document.querySelector('.hf-mode-toggle');
+  if (!toggle) return;
+
+  const buttons   = toggle.querySelectorAll('.hf-mode-btn');
+  const indicator = toggle.querySelector('.hf-mode-indicator');
+
+  function positionIndicator(btn) {
+    const toggleRect = toggle.getBoundingClientRect();
+    const btnRect    = btn.getBoundingClientRect();
+    indicator.style.width  = btnRect.width  + 'px';
+    indicator.style.height = btnRect.height + 'px';
+    indicator.style.transform = `translate(${btnRect.left - toggleRect.left - 8}px, ${btnRect.top - toggleRect.top - 8}px)`;
+  }
+
+  /* Set indicator on first active button without transition */
+  const activeBtn = toggle.querySelector('.hf-mode-btn--active');
+  indicator.style.transition = 'none';
+  positionIndicator(activeBtn);
+  requestAnimationFrame(() => {
+    indicator.style.transition = '';
+  });
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (btn.classList.contains('hf-mode-btn--active')) return;
+
+      const prevPanel = document.getElementById(
+        toggle.querySelector('.hf-mode-btn--active').getAttribute('aria-controls')
+      );
+      const nextPanel = document.getElementById(btn.getAttribute('aria-controls'));
+
+      /* Update active states */
+      buttons.forEach(b => {
+        b.classList.remove('hf-mode-btn--active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      btn.classList.add('hf-mode-btn--active');
+      btn.setAttribute('aria-selected', 'true');
+
+      /* Slide indicator */
+      positionIndicator(btn);
+
+      /* Animate panels with GSAP */
+      gsap.to(prevPanel, {
+        opacity: 0, y: -10, duration: 0.22, ease: 'power2.in',
+        onComplete: () => {
+          prevPanel.classList.add('hf-agents-panel--hidden');
+          nextPanel.classList.remove('hf-agents-panel--hidden');
+          gsap.fromTo(nextPanel,
+            { opacity: 0, y: 12 },
+            { opacity: 1, y: 0, duration: 0.38, ease: 'power3.out' }
+          );
+
+          /* Stagger cards in the new panel */
+          gsap.fromTo(nextPanel.querySelectorAll('.hf-agent-card'),
+            { opacity: 0, y: 22 },
+            { opacity: 1, y: 0, duration: 0.45, ease: 'power3.out', stagger: 0.07 }
+          );
+        },
+      });
+    });
+  });
+}
+
+/* ============================================================
    BOOT
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
@@ -330,6 +398,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileNav();
   initScrollAnimations();
   initCopyButtons();
+  initModeToggle();
   initCursorGlow();
   initHeroAnimations();
 });
