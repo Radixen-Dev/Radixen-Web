@@ -143,6 +143,7 @@ function initHeroAnimations() {
   gsap.set('#hf-hero-sub',       { opacity: 0, y: 18 });
   gsap.set('#hf-hero-cta',       { opacity: 0, y: 16 });
   gsap.set('#hf-install-quick',  { opacity: 0, y: 14 });
+  gsap.set('.hf-windows-link',   { opacity: 0, y: 8 });
   gsap.set('#scroll-indicator',  { opacity: 0 });
 
   const tl = gsap.timeline({ delay: 0.1 });
@@ -154,6 +155,7 @@ function initHeroAnimations() {
     .to('#hf-hero-sub',       { opacity: 1, y: 0, duration: 0.55, ease: 'power3.out' }, '-=0.3')
     .to('#hf-hero-cta',       { opacity: 1, y: 0, duration: 0.5,  ease: 'power3.out' }, '-=0.25')
     .to('#hf-install-quick',  { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' }, '-=0.2')
+    .to('.hf-windows-link',   { opacity: 1, y: 0, duration: 0.4,  ease: 'power2.out' }, '-=0.15')
     .to('#scroll-indicator',  { opacity: 1, duration: 0.7, ease: 'power2.out' },         '-=0.2');
 }
 
@@ -246,6 +248,10 @@ function initScrollAnimations() {
   fadeUp('.hf-cmd-db-note', { from: { opacity: 0, y: 16 }, start: 'top 86%' });
 
   /* Agent cards */
+  gsap.fromTo('.hf-mode-toggle',
+    { opacity: 0, y: 18 },
+    { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', scrollTrigger: { trigger: '.hf-mode-toggle', start: 'top 88%' } }
+  );
   gsap.utils.toArray('.hf-agent-card').forEach((card, i) => {
     gsap.fromTo(card,
       { opacity: 0, y: 35 },
