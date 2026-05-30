@@ -619,8 +619,12 @@
 
 .hf-install-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
+}
+
+.hf-install-card--top {
+  grid-column: 1 / -1;
 }
 
 .hf-install-card {
@@ -759,7 +763,7 @@
   margin-right: 0.5em;
 }
 
-.hf-code-block-sm .hf-code { font-size: 0.68rem; }
+.hf-code-block-sm .hf-code { font-size: 0.68rem; padding: 0.6rem 0.85rem; line-height: 1.65; }
 
 .hf-install-note,
 .hf-install-prose {
@@ -901,7 +905,7 @@
 .hf-mode-toggle {
   display: flex;
   gap: 0.75rem;
-  margin: 3rem 0 2.5rem;
+  margin: 1.75rem 0 2rem;
   position: relative;
   background: rgba(28, 34, 64, 0.6);
   border: 1px solid rgba(40, 136, 194, 0.14);
@@ -919,7 +923,7 @@
   background: linear-gradient(110deg, rgba(89, 187, 215, 0.18) 0%, rgba(40, 136, 194, 0.14) 100%);
   border: 1px solid rgba(89, 187, 215, 0.28);
   pointer-events: none;
-  transition: transform 0.38s cubic-bezier(0.34, 1.56, 0.64, 1), width 0.38s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1), width 0.32s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 0;
 }
 
@@ -1031,6 +1035,7 @@
   grid-template-columns: repeat(3, 1fr);
 }
 
+.hf-agents-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
@@ -1090,6 +1095,20 @@
 }
 
 .hf-link:hover { color: var(--cyan); }
+
+.hf-windows-link {
+  display: block;
+  margin-top: 0.65rem;
+  font-size: 0.72rem;
+  color: rgba(252, 249, 249, 0.28);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  letter-spacing: 0.01em;
+}
+
+.hf-windows-link:hover {
+  color: rgba(252, 249, 249, 0.55);
+}
 
 /* ============================================================
    FINAL CTA

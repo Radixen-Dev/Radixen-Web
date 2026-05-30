@@ -75,6 +75,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           </button>
         </div>
+        <a href="#hf-install" class="hf-windows-link">On Windows? See all install options &darr;</a>
       </div>
 
       <div class="scroll-indicator" id="scroll-indicator" aria-hidden="true">
@@ -243,6 +244,27 @@
 
       <div class="hf-install-grid">
 
+        <div class="hf-install-card hf-install-card--top">
+          <div class="hf-install-card-header">
+            <svg class="hf-install-os-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            <div>
+              <span class="hf-install-os">All platforms</span>
+              <span class="hf-install-method">Go install</span>
+            </div>
+          </div>
+          <div class="hf-code-block">
+            <div class="hf-code-block-header">
+              <span class="hf-code-lang">bash</span>
+              <button class="hf-copy-btn" aria-label="Copy" data-copy="go install github.com/Radixen-Dev/handoff@latest">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span>copy</span>
+              </button>
+            </div>
+            <pre class="hf-code"><span class="hf-c-prompt">$</span> go install github.com/Radixen-Dev/handoff@latest</pre>
+          </div>
+          <p class="hf-install-note">Requires Go 1.26+. Installs the latest release to your <code>$GOPATH/bin</code>.</p>
+        </div>
+
         <div class="hf-install-card hf-install-card--featured">
           <div class="hf-install-card-header">
             <svg class="hf-install-os-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
@@ -263,27 +285,6 @@
 <span class="hf-c-prompt">$</span> brew install handoff</pre>
           </div>
           <p class="hf-install-note">Recommended for macOS and Linux. Keeps handoff updated with <code>brew upgrade</code>.</p>
-        </div>
-
-        <div class="hf-install-card">
-          <div class="hf-install-card-header">
-            <svg class="hf-install-os-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-            <div>
-              <span class="hf-install-os">All platforms</span>
-              <span class="hf-install-method">Go install</span>
-            </div>
-          </div>
-          <div class="hf-code-block">
-            <div class="hf-code-block-header">
-              <span class="hf-code-lang">bash</span>
-              <button class="hf-copy-btn" aria-label="Copy" data-copy="go install github.com/Radixen-Dev/handoff@latest">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                <span>copy</span>
-              </button>
-            </div>
-            <pre class="hf-code"><span class="hf-c-prompt">$</span> go install github.com/Radixen-Dev/handoff@latest</pre>
-          </div>
-          <p class="hf-install-note">Requires Go 1.26+. Installs the latest release to your <code>$GOPATH/bin</code>.</p>
         </div>
 
         <div class="hf-install-card">
@@ -346,7 +347,7 @@
 
       <div class="hf-cmd-db-note">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
-        All commands share a single database at <code>~/.handoff/handoff.db</code> (macOS/Linux) or <code>%USERPROFILE%\.handoff\handoff.db</code> (Windows). Override with <code>HANDOFF_DB</code>.
+        <span>All commands share a single database at <code>~/.handoff/handoff.db</code> (macOS/Linux) or <code>%USERPROFILE%\.handoff\handoff.db</code> (Windows). Override with <code>HANDOFF_DB</code>.</span>
       </div>
     </section>
 
@@ -354,9 +355,7 @@
     <section id="hf-agents">
       <p class="section-label">Agent Setup</p>
       <h2 class="section-title">Drop one file.<br><span class="text-gradient">Done.</span></h2>
-      <p class="section-subtitle">
-        Add an instruction file to your project. The agent will automatically check for existing packages at session start, offer proactive transfers when context grows large, and respond to "do a handoff".
-      </p>
+      <p class="section-subtitle">Two ways to set up your agent. Pick what fits.</p>
 
       <!-- Mode toggle -->
       <div class="hf-mode-toggle" role="tablist" aria-label="Setup mode">
@@ -368,7 +367,7 @@
         <button class="hf-mode-btn" role="tab" aria-selected="false" aria-controls="hf-panel-skills" id="hf-tab-skills" data-mode="skills">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
           On-demand Skills
-          <span class="hf-mode-desc">Load handoff only when you ask</span>
+          <span class="hf-mode-desc">Works anywhere, no setup per session</span>
         </button>
         <div class="hf-mode-indicator" aria-hidden="true"></div>
       </div>
@@ -380,8 +379,8 @@
           <div class="hf-agent-card">
             <div class="hf-agent-header">
               <span class="hf-agent-name">GitHub Copilot</span>
-              <span class="hf-agent-type">Always-on</span>
             </div>
+            <p class="hf-agent-skill-desc">Drop an instruction file into your repo. Copilot reads it on every session automatically.</p>
             <div class="hf-code-block hf-code-block-sm">
               <div class="hf-code-block-header">
                 <span class="hf-code-lang">bash</span>
@@ -397,8 +396,8 @@
           <div class="hf-agent-card">
             <div class="hf-agent-header">
               <span class="hf-agent-name">Claude Code</span>
-              <span class="hf-agent-type">Always-on</span>
             </div>
+            <p class="hf-agent-skill-desc">Place a <code>CLAUDE.md</code> file at your project root. Claude picks it up at the start of every session.</p>
             <div class="hf-code-block hf-code-block-sm">
               <div class="hf-code-block-header">
                 <span class="hf-code-lang">bash</span>
@@ -414,8 +413,8 @@
           <div class="hf-agent-card">
             <div class="hf-agent-header">
               <span class="hf-agent-name">OpenAI Codex</span>
-              <span class="hf-agent-type">Always-on</span>
             </div>
+            <p class="hf-agent-skill-desc">Add an <code>AGENTS.md</code> file to your repo. Codex loads it automatically as part of its context.</p>
             <div class="hf-code-block hf-code-block-sm">
               <div class="hf-code-block-header">
                 <span class="hf-code-lang">bash</span>
@@ -431,8 +430,8 @@
           <div class="hf-agent-card">
             <div class="hf-agent-header">
               <span class="hf-agent-name">Cursor</span>
-              <span class="hf-agent-type">Always-on</span>
             </div>
+            <p class="hf-agent-skill-desc">Add a <code>.mdc</code> rule file to your project. Cursor applies it as a persistent background rule.</p>
             <div class="hf-code-block hf-code-block-sm">
               <div class="hf-code-block-header">
                 <span class="hf-code-lang">bash</span>
@@ -450,15 +449,11 @@
 
       <!-- Panel: On-demand Skills -->
       <div class="hf-agents-panel hf-agents-panel--hidden" id="hf-panel-skills" role="tabpanel" aria-labelledby="hf-tab-skills">
-        <p class="hf-skills-intro">
-          Skills are loaded only when you explicitly ask — <em>"use the handoff skill"</em> or <em>"do a handoff"</em>. No persistent instruction file needed. Ideal when you want handoff available without it running on every session.
-        </p>
         <div class="hf-agents-grid hf-skills-grid">
 
           <div class="hf-agent-card">
             <div class="hf-agent-header">
               <span class="hf-agent-name">GitHub Copilot</span>
-              <span class="hf-agent-type hf-agent-type--skill">On-demand</span>
             </div>
             <p class="hf-agent-skill-desc">Place the skill file in your VS Code user prompts folder. Copilot loads it when referenced in chat.</p>
             <div class="hf-code-block hf-code-block-sm">
@@ -477,7 +472,6 @@
           <div class="hf-agent-card">
             <div class="hf-agent-header">
               <span class="hf-agent-name">Claude Code</span>
-              <span class="hf-agent-type hf-agent-type--skill">On-demand</span>
             </div>
             <p class="hf-agent-skill-desc">Add as a slash command. Type <code>/handoff</code> in any Claude session to trigger a knowledge transfer.</p>
             <div class="hf-code-block hf-code-block-sm">
@@ -496,7 +490,6 @@
           <div class="hf-agent-card">
             <div class="hf-agent-header">
               <span class="hf-agent-name">OpenAI Codex</span>
-              <span class="hf-agent-type hf-agent-type--skill">On-demand</span>
             </div>
             <p class="hf-agent-skill-desc">Reference the skill inline. Ask Codex to "load the handoff skill" at the start of any session.</p>
             <div class="hf-code-block hf-code-block-sm">
