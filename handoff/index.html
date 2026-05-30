@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="handoff — Transfer knowledge between AI agent sessions. A local CLI that stores structured knowledge packages in SQLite so agents resume exactly where they left off." />
+  <meta name="theme-color" content="#171B33" />
+  <title>handoff — Radixen</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="handoff.css">
+</head>
+<body class="page-handoff">
+
+  <!-- ============ NAV ============ -->
+  <nav id="navbar">
+    <a href="/" class="nav-brand" aria-label="Radixen home">
+      <img src="../assets/logo.png" alt="Radixen" class="nav-logo" id="nav-logo">
+    </a>
+    <ul class="nav-links" role="list">
+      <li><a href="/">Home</a></li>
+      <li><a href="/#projects">Projects</a></li>
+      <li><a href="https://github.com/Radixen-Dev/handoff" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://radixen-dev.github.io/handoff/" target="_blank" rel="noopener">Docs</a></li>
+    </ul>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <main>
+
+    <!-- ============ HERO ============ -->
+    <section id="hf-hero">
+      <div class="hf-hero-bg" aria-hidden="true"></div>
+      <canvas id="hf-canvas" aria-hidden="true"></canvas>
+
+      <div class="hf-hero-content">
+        <div class="hf-badge-row" id="hf-badge-row">
+          <span class="hf-version-badge">v0.1.1</span>
+          <span class="hf-platform-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            Open Source &nbsp;&middot;&nbsp; MIT
+          </span>
+          <span class="hf-lang-badge">Go</span>
+        </div>
+
+        <h1 class="hf-hero-title" id="hf-hero-title">
+          <span class="hf-title-word">hand</span><span class="hf-title-accent">off</span>
+        </h1>
+
+        <p class="hf-hero-tagline" id="hf-hero-tagline">
+          Transfer knowledge between AI agent sessions.
+        </p>
+        <p class="hf-hero-sub" id="hf-hero-sub">
+          When an agent's context window fills up, accumulated project knowledge is lost.<br>
+          <span class="hf-hero-sub-em">handoff</span> keeps it alive.
+        </p>
+
+        <div class="hf-hero-cta" id="hf-hero-cta">
+          <a href="#hf-install" class="btn-primary">
+            Get started
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="https://github.com/Radixen-Dev/handoff" target="_blank" rel="noopener" class="btn-ghost">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            View on GitHub
+          </a>
+        </div>
+
+        <div class="hf-install-quick" id="hf-install-quick">
+          <code class="hf-inline-cmd">brew tap Radixen-Dev/tap <span class="hf-cmd-sep">&amp;&amp;</span> brew install handoff</code>
+          <button class="hf-copy-cmd" aria-label="Copy install command" data-copy="brew tap Radixen-Dev/tap && brew install handoff">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="scroll-indicator" id="scroll-indicator" aria-hidden="true">
+        <div class="scroll-line"></div>
+        <span>scroll</span>
+      </div>
+    </section>
+
+    <!-- ============ THE PROBLEM ============ -->
+    <section id="hf-problem">
+      <div class="hf-problem-inner">
+        <div class="hf-problem-text">
+          <p class="section-label">The Problem</p>
+          <h2 class="section-title">Context windows<br><span class="text-gradient">have a limit.</span></h2>
+          <p class="hf-prose">
+            Every AI agent has a finite context window. As a project grows, you accumulate decisions, constraints, architecture notes, and task history. When that window fills, one of two things happens: the agent starts forgetting earlier context, or you start a fresh session and spend the first ten minutes re-explaining everything.
+          </p>
+          <p class="hf-prose">
+            Neither is acceptable. Repeating yourself is friction. Lost context means lost decisions, re-tread ground, and subtle mistakes.
+          </p>
+        </div>
+
+        <div class="hf-problem-visual" aria-hidden="true">
+          <div class="hf-context-bar-wrap">
+            <div class="hf-context-bar-label">
+              <span class="hf-context-bar-label-text">Context window</span>
+              <span class="hf-context-bar-pct" id="hf-bar-pct">0%</span>
+            </div>
+            <div class="hf-context-bar-track">
+              <div class="hf-context-bar-fill" id="hf-bar-fill"></div>
+            </div>
+            <div class="hf-context-bar-items" id="hf-bar-items">
+              <span class="hf-ctx-item" style="--d:0">Architecture decisions</span>
+              <span class="hf-ctx-item" style="--d:1">Auth flow notes</span>
+              <span class="hf-ctx-item" style="--d:2">JWT design choices</span>
+              <span class="hf-ctx-item" style="--d:3">Database schema</span>
+              <span class="hf-ctx-item" style="--d:4">Deployment config</span>
+              <span class="hf-ctx-item" style="--d:5">API contracts</span>
+              <span class="hf-ctx-item" style="--d:6">Error handling strategy</span>
+              <span class="hf-ctx-item" style="--d:7">Conversation history</span>
+            </div>
+            <div class="hf-context-warning" id="hf-ctx-warning">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              Context limit approaching
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ THE SOLUTION ============ -->
+    <section id="hf-solution">
+      <p class="section-label">The Solution</p>
+      <h2 class="section-title hf-solution-title">One command.<br><span class="text-gradient">Nothing lost.</span></h2>
+      <p class="section-subtitle">
+        handoff stores a structured knowledge package locally and hands it to the next session. No cloud. No config. No re-explaining.
+      </p>
+
+      <div class="hf-flow-diagram">
+
+        <div class="hf-flow-session hf-flow-session-a">
+          <div class="hf-flow-session-label">
+            <span class="hf-flow-letter">A</span>
+            <span>Session fills up</span>
+          </div>
+          <div class="hf-flow-chat">
+            <div class="hf-flow-msg hf-flow-msg-user">
+              "Our context is getting large. Do a handoff."
+            </div>
+            <div class="hf-flow-msg hf-flow-msg-ai" id="hf-sol-store">
+              <span class="hf-flow-tick">&#10003;</span> Done. Stored as <code class="hf-flow-id">a3f9c12e</code>
+            </div>
+          </div>
+          <div class="hf-flow-under-label">The agent runs <code>handoff store</code> internally</div>
+        </div>
+
+        <div class="hf-flow-arrow" aria-hidden="true">
+          <div class="hf-flow-arrow-line"></div>
+          <div class="hf-flow-arrow-db">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+          </div>
+          <span class="hf-flow-arrow-label">local SQLite</span>
+        </div>
+
+        <div class="hf-flow-session hf-flow-session-b">
+          <div class="hf-flow-session-label">
+            <span class="hf-flow-letter hf-flow-letter-b">B</span>
+            <span>New session, instant context</span>
+          </div>
+          <div class="hf-flow-chat">
+            <div class="hf-flow-msg hf-flow-msg-user">
+              "Retrieve knowledge package <code class="hf-flow-id">a3f9c12e</code>."
+            </div>
+            <div class="hf-flow-msg hf-flow-msg-ai" id="hf-sol-retrieve">
+              <span class="hf-flow-tick">&#10003;</span> Session restored. We were working on the JWT auth flow. Ready to continue?
+            </div>
+          </div>
+          <div class="hf-flow-under-label">The agent runs <code>handoff retrieve</code> internally</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============ HOW IT WORKS ============ -->
+    <section id="hf-how">
+      <p class="section-label">How It Works</p>
+      <h2 class="section-title">Simple by design.<br><span class="text-gradient">Solid in practice.</span></h2>
+
+      <div class="hf-principles-grid">
+
+        <div class="hf-principle-card">
+          <div class="hf-principle-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          </div>
+          <h3 class="hf-principle-title">Local SQLite database</h3>
+          <p class="hf-principle-desc">All knowledge packages live in a single file at <code>~/.handoff/handoff.db</code>. Nothing leaves your machine. You own it entirely.</p>
+        </div>
+
+        <div class="hf-principle-card">
+          <div class="hf-principle-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <h3 class="hf-principle-title">Stdin / Stdout interface</h3>
+          <p class="hf-principle-desc"><code>handoff store</code> reads from stdin. <code>handoff retrieve</code> writes to stdout. Composable with pipes, scripts, and any agent that can run shell commands.</p>
+        </div>
+
+        <div class="hf-principle-card">
+          <div class="hf-principle-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <h3 class="hf-principle-title">Packages expire automatically</h3>
+          <p class="hf-principle-desc">Each package has a time-to-live. Run <code>handoff gc</code> to manually sweep expired entries. The database stays clean without intervention.</p>
+        </div>
+
+        <div class="hf-principle-card">
+          <div class="hf-principle-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3 class="hf-principle-title">No server. No cloud. No config.</h3>
+          <p class="hf-principle-desc">One binary. One environment variable if you want a custom DB path. That's it. There is no config file, no account, no network dependency.</p>
+        </div>
+
+        <div class="hf-principle-card">
+          <div class="hf-principle-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <h3 class="hf-principle-title">Works with any agent</h3>
+          <p class="hf-principle-desc">Claude Code, GitHub Copilot, Cursor, OpenAI Codex — drop in an instruction file and the agent handles handoffs automatically, responding to phrases like "do a handoff".</p>
+        </div>
+
+        <div class="hf-principle-card">
+          <div class="hf-principle-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <h3 class="hf-principle-title">macOS, Linux, Windows</h3>
+          <p class="hf-principle-desc">Pre-built binaries for all platforms. Install via Homebrew, <code>go install</code>, or download a release binary directly.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============ INSTALL ============ -->
+    <section id="hf-install">
+      <p class="section-label">Installation</p>
+      <h2 class="section-title">Up in<br><span class="text-gradient">thirty seconds.</span></h2>
+
+      <div class="hf-install-grid">
+
+        <div class="hf-install-card hf-install-card--featured">
+          <div class="hf-install-card-header">
+            <svg class="hf-install-os-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <div>
+              <span class="hf-install-os">macOS &amp; Linux</span>
+              <span class="hf-install-method">Homebrew</span>
+            </div>
+          </div>
+          <div class="hf-code-block">
+            <div class="hf-code-block-header">
+              <span class="hf-code-lang">bash</span>
+              <button class="hf-copy-btn" aria-label="Copy" data-copy="brew tap Radixen-Dev/tap &amp;&amp; brew install handoff">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span>copy</span>
+              </button>
+            </div>
+            <pre class="hf-code"><span class="hf-c-prompt">$</span> brew tap Radixen-Dev/tap
+<span class="hf-c-prompt">$</span> brew install handoff</pre>
+          </div>
+          <p class="hf-install-note">Recommended for macOS and Linux. Keeps handoff updated with <code>brew upgrade</code>.</p>
+        </div>
+
+        <div class="hf-install-card">
+          <div class="hf-install-card-header">
+            <svg class="hf-install-os-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            <div>
+              <span class="hf-install-os">All platforms</span>
+              <span class="hf-install-method">Go install</span>
+            </div>
+          </div>
+          <div class="hf-code-block">
+            <div class="hf-code-block-header">
+              <span class="hf-code-lang">bash</span>
+              <button class="hf-copy-btn" aria-label="Copy" data-copy="go install github.com/Radixen-Dev/handoff@latest">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span>copy</span>
+              </button>
+            </div>
+            <pre class="hf-code"><span class="hf-c-prompt">$</span> go install github.com/Radixen-Dev/handoff@latest</pre>
+          </div>
+          <p class="hf-install-note">Requires Go 1.26+. Installs the latest release to your <code>$GOPATH/bin</code>.</p>
+        </div>
+
+        <div class="hf-install-card">
+          <div class="hf-install-card-header">
+            <svg class="hf-install-os-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8 21 12 17 16 21"/></svg>
+            <div>
+              <span class="hf-install-os">Windows</span>
+              <span class="hf-install-method">Pre-built binary</span>
+            </div>
+          </div>
+          <p class="hf-install-prose">Download the pre-built <code>.zip</code> from the releases page, extract it, and place <code>handoff.exe</code> in a directory on your <code>%PATH%</code>.</p>
+          <a href="https://github.com/Radixen-Dev/handoff/releases" target="_blank" rel="noopener" class="btn-ghost hf-install-releases-btn">
+            Releases page
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============ COMMANDS ============ -->
+    <section id="hf-commands">
+      <p class="section-label">Commands</p>
+      <h2 class="section-title">Five commands.<br><span class="text-gradient">That's all.</span></h2>
+      <p class="section-subtitle">The full interface. Agents use <code>store</code> and <code>retrieve</code> automatically. You only need the others when you want to inspect or clean up.</p>
+
+      <div class="hf-cmd-list">
+
+        <div class="hf-cmd-row">
+          <div class="hf-cmd-name"><code>handoff store</code></div>
+          <div class="hf-cmd-desc">Read content from stdin and save it as a named knowledge package. Returns the package ID.</div>
+          <div class="hf-cmd-tag hf-cmd-tag--agent">Agent-facing</div>
+        </div>
+
+        <div class="hf-cmd-row">
+          <div class="hf-cmd-name"><code>handoff retrieve &lt;id&gt;</code></div>
+          <div class="hf-cmd-desc">Fetch a package by ID and write its content to stdout. The agent reads this directly into context.</div>
+          <div class="hf-cmd-tag hf-cmd-tag--agent">Agent-facing</div>
+        </div>
+
+        <div class="hf-cmd-row">
+          <div class="hf-cmd-name"><code>handoff list</code></div>
+          <div class="hf-cmd-desc">List all non-expired packages in a table with ID, name, size, and expiry time.</div>
+          <div class="hf-cmd-tag hf-cmd-tag--user">User-facing</div>
+        </div>
+
+        <div class="hf-cmd-row">
+          <div class="hf-cmd-name"><code>handoff gc</code></div>
+          <div class="hf-cmd-desc">Manually delete all expired packages. Runs automatically over time, but this forces an immediate sweep.</div>
+          <div class="hf-cmd-tag hf-cmd-tag--user">User-facing</div>
+        </div>
+
+        <div class="hf-cmd-row">
+          <div class="hf-cmd-name"><code>handoff completion</code></div>
+          <div class="hf-cmd-desc">Generate a shell completion script for bash, zsh, fish, or PowerShell.</div>
+          <div class="hf-cmd-tag hf-cmd-tag--user">User-facing</div>
+        </div>
+
+      </div>
+
+      <div class="hf-cmd-db-note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+        All commands share a single database at <code>~/.handoff/handoff.db</code> (macOS/Linux) or <code>%USERPROFILE%\.handoff\handoff.db</code> (Windows). Override with <code>HANDOFF_DB</code>.
+      </div>
+    </section>
+
+    <!-- ============ AGENT SETUP ============ -->
+    <section id="hf-agents">
+      <p class="section-label">Agent Setup</p>
+      <h2 class="section-title">Drop one file.<br><span class="text-gradient">Done.</span></h2>
+      <p class="section-subtitle">
+        Add an instruction file to your project. The agent will automatically check for existing packages at session start, offer proactive transfers when context grows large, and respond to "do a handoff".
+      </p>
+
+      <div class="hf-agents-grid">
+
+        <div class="hf-agent-card" id="hf-agent-copilot">
+          <div class="hf-agent-header">
+            <span class="hf-agent-name">GitHub Copilot</span>
+            <span class="hf-agent-type">Always-on</span>
+          </div>
+          <div class="hf-code-block hf-code-block-sm">
+            <div class="hf-code-block-header">
+              <span class="hf-code-lang">bash</span>
+              <button class="hf-copy-btn" aria-label="Copy" data-copy="curl -fsSL https://raw.githubusercontent.com/Radixen-Dev/handoff/main/instructions/copilot-instructions.md -o .github/copilot-instructions.md">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span>copy</span>
+              </button>
+            </div>
+            <pre class="hf-code hf-code-wrap"><span class="hf-c-prompt">$</span> curl -fsSL https://raw.githubusercontent.com/Radixen-Dev/handoff/main/instructions/copilot-instructions.md -o .github/copilot-instructions.md</pre>
+          </div>
+        </div>
+
+        <div class="hf-agent-card" id="hf-agent-claude">
+          <div class="hf-agent-header">
+            <span class="hf-agent-name">Claude Code</span>
+            <span class="hf-agent-type">Always-on</span>
+          </div>
+          <div class="hf-code-block hf-code-block-sm">
+            <div class="hf-code-block-header">
+              <span class="hf-code-lang">bash</span>
+              <button class="hf-copy-btn" aria-label="Copy" data-copy="curl -fsSL https://raw.githubusercontent.com/Radixen-Dev/handoff/main/instructions/CLAUDE.md -o CLAUDE.md">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span>copy</span>
+              </button>
+            </div>
+            <pre class="hf-code hf-code-wrap"><span class="hf-c-prompt">$</span> curl -fsSL https://raw.githubusercontent.com/Radixen-Dev/handoff/main/instructions/CLAUDE.md -o CLAUDE.md</pre>
+          </div>
+        </div>
+
+        <div class="hf-agent-card" id="hf-agent-codex">
+          <div class="hf-agent-header">
+            <span class="hf-agent-name">OpenAI Codex</span>
+            <span class="hf-agent-type">Always-on</span>
+          </div>
+          <div class="hf-code-block hf-code-block-sm">
+            <div class="hf-code-block-header">
+              <span class="hf-code-lang">bash</span>
+              <button class="hf-copy-btn" aria-label="Copy" data-copy="curl -fsSL https://raw.githubusercontent.com/Radixen-Dev/handoff/main/instructions/AGENTS.md -o AGENTS.md">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span>copy</span>
+              </button>
+            </div>
+            <pre class="hf-code hf-code-wrap"><span class="hf-c-prompt">$</span> curl -fsSL https://raw.githubusercontent.com/Radixen-Dev/handoff/main/instructions/AGENTS.md -o AGENTS.md</pre>
+          </div>
+        </div>
+
+        <div class="hf-agent-card" id="hf-agent-cursor">
+          <div class="hf-agent-header">
+            <span class="hf-agent-name">Cursor</span>
+            <span class="hf-agent-type">Always-on</span>
+          </div>
+          <div class="hf-code-block hf-code-block-sm">
+            <div class="hf-code-block-header">
+              <span class="hf-code-lang">bash</span>
+              <button class="hf-copy-btn" aria-label="Copy" data-copy="curl -fsSL https://raw.githubusercontent.com/Radixen-Dev/handoff/main/instructions/cursor.mdc -o .cursor/rules/handoff.mdc">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span>copy</span>
+              </button>
+            </div>
+            <pre class="hf-code hf-code-wrap"><span class="hf-c-prompt">$</span> curl -fsSL https://raw.githubusercontent.com/Radixen-Dev/handoff/main/instructions/cursor.mdc -o .cursor/rules/handoff.mdc</pre>
+          </div>
+        </div>
+
+      </div>
+
+      <p class="hf-agents-note">
+        Prefer on-demand loading? Skill files for Copilot, Codex, and Claude are also available.
+        <a href="https://radixen-dev.github.io/handoff/agents/" target="_blank" rel="noopener" class="hf-link">Full agent setup guide &rarr;</a>
+      </p>
+    </section>
+
+    <!-- ============ CTA / FOOTER ============ -->
+    <section id="hf-cta">
+      <div class="hf-cta-inner">
+        <p class="section-label">Get It</p>
+        <h2 class="hf-cta-title">Open source.<br><span class="text-gradient">Free forever.</span></h2>
+        <p class="hf-cta-sub">MIT licensed. No tracking, no accounts, no cloud. Your context, your machine.</p>
+        <div class="hf-cta-buttons">
+          <a href="https://github.com/Radixen-Dev/handoff" target="_blank" rel="noopener" class="btn-primary btn-large">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            View on GitHub
+          </a>
+          <a href="https://radixen-dev.github.io/handoff/" target="_blank" rel="noopener" class="btn-ghost">
+            Documentation
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer id="footer">
+    <div class="footer-brand">
+      <img src="../assets/logo.png" alt="Radixen" class="footer-logo">
+      <p class="footer-copy">&copy; 2026 Radixen</p>
+    </div>
+    <ul class="footer-links" role="list">
+      <li><a href="/">Home</a></li>
+      <li><a href="/#projects">Projects</a></li>
+      <li><a href="/#services">Services</a></li>
+      <li><a href="/#about">About</a></li>
+      <li><a href="/#contact">Contact</a></li>
+      <li><a href="https://github.com/Radixen-Dev/" target="_blank" rel="noopener">GitHub</a></li>
+    </ul>
+    <p class="footer-source">This site's source is <a href="https://github.com/Radixen-Dev/Radixen-Web" target="_blank" rel="noopener">publicly available on GitHub</a> — build quality you can inspect.</p>
+  </footer>
+
+  <!-- GSAP + ScrollTrigger (no integrity hashes per project convention) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="handoff.js"></script>
+</body>
+</html>
