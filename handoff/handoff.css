@@ -7,21 +7,7 @@
 /* ---- Page-level overrides -------------------------------- */
 .page-handoff #hf-hero { padding-top: 0; }
 
-/* ---- Nav brand "by Radixen" label ----------------------- */
-.nav-brand {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-.nav-brand-by {
-  font-family: var(--ff-display);
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  color: rgba(252, 249, 249, 0.38);
-  white-space: nowrap;
-  padding-top: 0.1em;
-}
+
 
 /* ============================================================
    HERO
