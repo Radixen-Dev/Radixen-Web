@@ -214,6 +214,7 @@ function initIntro(onComplete) {
   const logoWrap = document.getElementById('intro-logo-wrap');
   const bar      = document.getElementById('intro-bar');
 
+  overlay.style.display = 'flex';
   document.body.style.overflow = 'hidden';
 
   const tl = gsap.timeline({
