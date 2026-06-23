@@ -1973,6 +1973,229 @@ footer {
   padding: 0.2em 0.5em;
 }
 
+/* ---- Second spotlight: AgentRoute --------------------- */
+.project-spotlight--agentroute { margin-top: 2.5rem; }
+
+.project-release-badge--agentroute {
+  background: rgba(65, 214, 195, 0.08);
+  border-color: rgba(65, 214, 195, 0.25);
+  color: #41D6C3;
+}
+
+.project-release-dot--agentroute { background: #41D6C3; }
+
+.project-name--agentroute {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 700;
+  background: none;
+  -webkit-background-clip: initial;
+  -webkit-text-fill-color: initial;
+  background-clip: initial;
+}
+
+.project-name--agentroute .ar-word-agent { color: var(--white); }
+.project-name--agentroute .ar-word-route { color: #41D6C3; }
+
+.project-btn--agentroute {
+  background: linear-gradient(135deg, #41D6C3, #7AA7FF);
+  color: #0F1419;
+}
+
+.project-btn--agentroute::before {
+  background: linear-gradient(135deg, rgba(230, 237, 243, 0.2), transparent);
+}
+
+.project-btn--agentroute:hover {
+  box-shadow: 0 12px 36px rgba(65, 214, 195, 0.35);
+}
+
+.project-btn-ghost--agentroute {
+  border-color: rgba(65, 214, 195, 0.3);
+  color: rgba(65, 214, 195, 0.8);
+}
+
+.project-btn-ghost--agentroute svg { stroke: #41D6C3; }
+
+.project-btn-ghost--agentroute:hover {
+  color: #41D6C3;
+  background: rgba(65, 214, 195, 0.1);
+  border-color: #41D6C3;
+}
+
+/* ============================================================
+   TUI MOCK — AgentRoute dashboard preview component
+   Shared between the homepage spotlight and the /agentroute page.
+   Uses AgentRoute's own locked palette (not Radixen's), since this
+   is a reproduction of AgentRoute's real terminal UI.
+   ============================================================ */
+.tui-mock {
+  width: 100%;
+  max-width: 480px;
+  background: #0F1419;
+  border: 1px solid #27343F;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.03),
+    0 28px 60px rgba(0,0,0,0.55),
+    0 0 50px rgba(65, 214, 195, 0.06);
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.tui-mock-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 1rem;
+  background: rgba(255,255,255,0.03);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.tui-mock-dots { display: flex; gap: 0.38rem; }
+.tui-mock-dots span { width: 10px; height: 10px; border-radius: 50%; }
+.tui-mock-dots span:nth-child(1) { background: #ff5f57; }
+.tui-mock-dots span:nth-child(2) { background: #febc2e; }
+.tui-mock-dots span:nth-child(3) { background: #28c840; }
+
+.tui-mock-bar-title {
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  color: rgba(230, 237, 243, 0.3);
+  flex: 1;
+  text-align: center;
+}
+
+.tui-mock-screen {
+  padding: 0.9rem 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.tui-mock-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid #27343F;
+}
+
+.tui-mock-wordmark {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.tui-mock-wordmark-a { color: #E6EDF3; }
+.tui-mock-wordmark-r { color: #41D6C3; }
+
+.tui-mock-screentitle {
+  font-size: 0.65rem;
+  color: #7D8A99;
+  flex: 1;
+}
+
+.tui-mock-pill {
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  padding: 0.18rem 0.55rem;
+  border-radius: 100px;
+  color: #7D8A99;
+  background: rgba(125, 138, 153, 0.08);
+  border: 1px solid rgba(125, 138, 153, 0.2);
+  transition: color 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+}
+
+.tui-mock-pill[data-state="up"] {
+  color: #80DF96;
+  background: rgba(128, 223, 150, 0.08);
+  border-color: rgba(128, 223, 150, 0.28);
+}
+
+.tui-mock-pill[data-state="pending"] {
+  color: #FFC86B;
+  background: rgba(255, 200, 107, 0.08);
+  border-color: rgba(255, 200, 107, 0.28);
+}
+
+.tui-mock-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.tui-mock-card {
+  border: 1px solid #27343F;
+  border-radius: 8px;
+  padding: 0.6rem 0.75rem;
+  background: rgba(32, 42, 51, 0.4);
+}
+
+.tui-mock-card-title {
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7D8A99;
+  margin-bottom: 0.4rem;
+}
+
+.tui-mock-card-line {
+  font-size: 0.72rem;
+  color: rgba(230, 237, 243, 0.7);
+  line-height: 1.5;
+  transition: color 0.3s ease;
+}
+
+.tui-mock-accent { color: #41D6C3; }
+.tui-mock-muted { color: #7D8A99; }
+
+.tui-mock-btn {
+  margin-top: 0.4rem;
+  font-size: 0.65rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 5px;
+  border: 1px solid rgba(65, 214, 195, 0.3);
+  background: rgba(65, 214, 195, 0.08);
+  color: #41D6C3;
+  cursor: default;
+  font-family: inherit;
+}
+
+.tui-mock-spark {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 28px;
+  margin-top: 0.3rem;
+}
+
+.tui-mock-spark span {
+  flex: 1;
+  min-width: 3px;
+  background: rgba(65, 214, 195, 0.35);
+  border-radius: 1px;
+  height: 8%;
+  transition: height 0.4s ease, background 0.4s ease;
+}
+
+.tui-mock-statusbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.6rem;
+  color: #7D8A99;
+  padding-top: 0.5rem;
+  border-top: 1px solid #27343F;
+}
+
+.tui-mock-toast {
+  color: #80DF96;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.tui-mock-toast.visible { opacity: 1; }
+
 /* ============================================================
    RESPONSIVE
    ============================================================ */

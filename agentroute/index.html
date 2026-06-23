@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AgentRoute — route Claude Code through OpenRouter. One key, any model, fully reversible. A single Go binary with a TUI and a scriptable CLI." />
+  <meta name="theme-color" content="#0F1419" />
+  <link rel="canonical" href="https://www.radixen.com/agentroute/" />
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.radixen.com/agentroute/" />
+  <meta property="og:title" content="AgentRoute by Radixen" />
+  <meta property="og:description" content="Route Claude Code through OpenRouter. One key, any model, fully reversible." />
+  <meta property="og:image" content="https://www.radixen.com/assets/logo.png" />
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="AgentRoute by Radixen" />
+  <meta name="twitter:description" content="Route Claude Code through OpenRouter. One key, any model, fully reversible." />
+  <meta name="twitter:image" content="https://www.radixen.com/assets/logo.png" />
+  <link rel="icon" href="../assets/agentroute-logo.svg" type="image/svg+xml">
+  <title>AgentRoute by Radixen</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="agentroute.css">
+</head>
+<body class="page-agentroute">
+
+  <!-- ============ NAV ============ -->
+  <nav id="navbar">
+    <a href="/" class="nav-brand" aria-label="Radixen home">
+      <img src="../assets/logo.png" alt="Radixen" class="nav-logo" id="nav-logo">
+    </a>
+    <ul class="nav-links" role="list">
+      <li><a href="https://github.com/Radixen-Dev/AgentRoute" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://radixen-dev.github.io/AgentRoute/" target="_blank" rel="noopener">Docs</a></li>
+    </ul>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <main>
+
+    <!-- ============ HERO ============ -->
+    <section id="ar-hero">
+      <div class="ar-hero-bg" aria-hidden="true"></div>
+      <canvas id="ar-canvas" aria-hidden="true"></canvas>
+
+      <div class="ar-hero-content">
+        <div class="ar-badge-row" id="ar-badge-row">
+          <span class="ar-version-badge">v0.1.0 &middot; Pre-release</span>
+          <span class="ar-platform-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            Open Source &nbsp;&middot;&nbsp; GPL-3.0
+          </span>
+          <span class="ar-lang-badge">Go</span>
+        </div>
+
+        <h1 class="ar-hero-title" id="ar-hero-title"><span class="ar-word-agent">Agent</span><span class="ar-word-route">Route</span></h1>
+
+        <p class="ar-hero-tagline" id="ar-hero-tagline">
+          Route Claude Code through OpenRouter.
+        </p>
+        <p class="ar-hero-sub" id="ar-hero-sub">
+          One key. Any model, any tier. <span class="ar-hero-sub-em">AgentRoute</span> stays out of the way until you need it.
+        </p>
+
+        <div class="ar-hero-cta" id="ar-hero-cta">
+          <a href="#ar-install" class="btn-primary">
+            Get started
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="https://github.com/Radixen-Dev/AgentRoute" target="_blank" rel="noopener" class="btn-ghost">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            View on GitHub
+          </a>
+        </div>
+
+        <div class="ar-install-quick" id="ar-install-quick">
+          <code class="ar-inline-cmd">brew install --cask Radixen-Dev/agentroute/agentroute</code>
+          <button class="ar-copy-cmd" aria-label="Copy install command" data-copy="brew install --cask Radixen-Dev/agentroute/agentroute">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
+        </div>
+        <a href="#ar-install" class="ar-windows-link">On Windows? See all install options &darr;</a>
+      </div>
+
+      <div class="scroll-indicator" id="scroll-indicator" aria-hidden="true">
+        <div class="scroll-line"></div>
+        <span>scroll</span>
+      </div>
+    </section>
+
+    <!-- ============ THE PROBLEM ============ -->
+    <section id="ar-problem">
+      <div class="ar-problem-inner">
+        <div class="ar-problem-text">
+          <p class="section-label ar-section-label">The Problem</p>
+          <h2 class="section-title">One model.<br><span class="ar-text-gradient">One provider. Locked in.</span></h2>
+          <p class="ar-prose">
+            Claude Code talks straight to Anthropic's API. That's fine until you want a cheaper model for routine edits, a different provider's flagship for the hard problems, or just to see what else is out there — none of that is a flag away.
+          </p>
+          <p class="ar-prose">
+            Wiring around it means hand-editing <code>~/.claude/settings.json</code>, hoping it survives the next Claude Code update, and remembering to undo it cleanly. Multiply that by every teammate who wants a different setup, and "config drift" stops being a joke.
+          </p>
+        </div>
+
+        <div class="ar-problem-visual" aria-hidden="true">
+          <div class="ar-lockin-card">
+            <div class="ar-lockin-card-label">Current route</div>
+            <div class="ar-lockin-row">
+              <span class="ar-lockin-node">Claude Code</span>
+              <span class="ar-lockin-arrow">&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9656;</span>
+              <span class="ar-lockin-node ar-lockin-node--locked">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                Anthropic API
+              </span>
+            </div>
+            <div class="ar-lockin-blocked-label">Not reachable without rewriting your config:</div>
+            <div class="ar-lockin-blocked-list" id="ar-blocked-list">
+              <span class="ar-lockin-blocked" style="--d:0">GPT-5</span>
+              <span class="ar-lockin-blocked" style="--d:1">Gemini 3</span>
+              <span class="ar-lockin-blocked" style="--d:2">DeepSeek</span>
+              <span class="ar-lockin-blocked" style="--d:3">Llama 4</span>
+              <span class="ar-lockin-blocked" style="--d:4">Grok</span>
+              <span class="ar-lockin-blocked" style="--d:5">+300 more</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ THE SOLUTION ============ -->
+    <section id="ar-solution">
+      <p class="section-label ar-section-label">The Solution</p>
+      <h2 class="section-title ar-solution-title">One binary.<br><span class="ar-text-gradient">Any model you want.</span></h2>
+      <p class="section-subtitle">
+        AgentRoute runs a small local gateway between Claude Code and OpenRouter. Point Claude Code at it once, and the model behind every Opus, Sonnet, and Haiku call is yours to choose &mdash; reversible the moment you don't want it anymore.
+      </p>
+
+      <div class="ar-arch-diagram" id="ar-arch-diagram">
+        <div class="ar-arch-node" style="--d:0">
+          <div class="ar-arch-node-title">Claude Code</div>
+          <div class="ar-arch-node-cap"><code>~/.claude/settings.json</code> env block points here</div>
+        </div>
+
+        <div class="ar-arch-connector" style="--d:1">
+          <span class="ar-arch-connector-label">Anthropic /v1/messages</span>
+        </div>
+
+        <div class="ar-arch-node ar-arch-node--accent" style="--d:2">
+          <div class="ar-arch-node-title">AgentRoute gateway</div>
+          <div class="ar-arch-node-cap">Authenticates, maps each tier to your chosen model</div>
+        </div>
+
+        <div class="ar-arch-connector" style="--d:3">
+          <span class="ar-arch-connector-label">proxy</span>
+        </div>
+
+        <div class="ar-arch-node" style="--d:4">
+          <div class="ar-arch-node-title">LiteLLM sidecar</div>
+          <div class="ar-arch-node-cap">renders config from your active profile</div>
+        </div>
+
+        <div class="ar-arch-connector" style="--d:5">
+          <span class="ar-arch-connector-label">routes to</span>
+        </div>
+
+        <div class="ar-arch-node" style="--d:6">
+          <div class="ar-arch-node-title">OpenRouter</div>
+          <div class="ar-arch-node-cap">300+ models, one API key</div>
+        </div>
+      </div>
+
+      <div class="ar-dash-feature">
+        <div class="tui-mock" id="ar-tui-mock" role="img" aria-label="AgentRoute dashboard preview">
+          <div class="tui-mock-bar">
+            <div class="tui-mock-dots"><span></span><span></span><span></span></div>
+            <span class="tui-mock-bar-title">agentroute</span>
+          </div>
+          <div class="tui-mock-screen">
+            <div class="tui-mock-header">
+              <span class="tui-mock-wordmark"><span class="tui-mock-wordmark-a">Agent</span><span class="tui-mock-wordmark-r">Route</span></span>
+              <span class="tui-mock-screentitle">Dashboard</span>
+              <span class="tui-mock-pill" id="tui-pill" data-state="down">gateway: down</span>
+            </div>
+            <div class="tui-mock-body">
+              <div class="tui-mock-card">
+                <div class="tui-mock-card-title">Gateway</div>
+                <div class="tui-mock-card-line" id="tui-gateway-line">down</div>
+                <button class="tui-mock-btn" id="tui-gateway-btn" type="button">[u] start</button>
+              </div>
+              <div class="tui-mock-card">
+                <div class="tui-mock-card-title">Profile &amp; Platforms</div>
+                <div class="tui-mock-card-line">active profile: <span class="tui-mock-accent">default</span></div>
+                <div class="tui-mock-card-line" id="tui-claude-line">claude-code:&nbsp;&nbsp;<span class="tui-mock-muted">not linked</span></div>
+              </div>
+              <div class="tui-mock-card">
+                <div class="tui-mock-card-title">Request activity</div>
+                <div class="tui-mock-spark" id="tui-spark"></div>
+              </div>
+            </div>
+            <div class="tui-mock-statusbar">
+              <span>&lt;u&gt; start gateway&nbsp;&nbsp;&lt;2&gt; profiles&nbsp;&nbsp;&lt;?&gt; help</span>
+              <span class="tui-mock-toast" id="tui-toast"></span>
+            </div>
+          </div>
+        </div>
+        <p class="ar-dash-caption">The Dashboard screen of <code>agentroute tui</code> &mdash; live preview, not a screenshot.</p>
+      </div>
+    </section>
+
+    <!-- ============ HOW IT WORKS ============ -->
+    <section id="ar-how">
+      <p class="section-label ar-section-label">How It Works</p>
+      <h2 class="section-title">Built local.<br><span class="ar-text-gradient">Built to be undone.</span></h2>
+
+      <div class="ar-principles-grid">
+
+        <div class="ar-principle-card">
+          <div class="ar-principle-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M6 12h.01M10 8h8M10 12h8M10 16h4"/></svg>
+          </div>
+          <h3 class="ar-principle-title">Local gateway, no cloud relay</h3>
+          <p class="ar-principle-desc">A small HTTP server on <code>127.0.0.1</code>. Your traffic goes straight to OpenRouter &mdash; nothing routes through a Radixen server.</p>
+        </div>
+
+        <div class="ar-principle-card">
+          <div class="ar-principle-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          </div>
+          <h3 class="ar-principle-title">Reversible by design</h3>
+          <p class="ar-principle-desc"><code>up</code> backs up what it touches in <code>~/.claude/settings.json</code>; <code>down</code> restores it exactly. Nothing dangling.</p>
+        </div>
+
+        <div class="ar-principle-card">
+          <div class="ar-principle-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </div>
+          <h3 class="ar-principle-title">Switch models without restarting</h3>
+          <p class="ar-principle-desc">Activate a different profile, or edit the active one &mdash; the gateway re-reads it per request, not once at startup.</p>
+        </div>
+
+        <div class="ar-principle-card">
+          <div class="ar-principle-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <h3 class="ar-principle-title">Two front ends, one engine</h3>
+          <p class="ar-principle-desc">A full TUI dashboard for interactive use, and a scriptable <code>--json</code> CLI for everything else.</p>
+        </div>
+
+        <div class="ar-principle-card">
+          <div class="ar-principle-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3 class="ar-principle-title">Stable exit codes</h3>
+          <p class="ar-principle-desc">0&ndash;5, documented and stable. Scripts and other agents can depend on them without parsing output.</p>
+        </div>
+
+        <div class="ar-principle-card">
+          <div class="ar-principle-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.12 15.88M14.47 14.48L20 20M8.12 8.12 12 12"/></svg>
+          </div>
+          <h3 class="ar-principle-title">Built to extend</h3>
+          <p class="ar-principle-desc">Codex and Gemini CLI support is designed into the platform-adapter boundary, not bolted on later.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============ INSTALL ============ -->
+    <section id="ar-install">
+      <p class="section-label ar-section-label">Installation</p>
+      <h2 class="section-title">One binary.<br><span class="ar-text-gradient">Every platform.</span></h2>
+
+      <div class="ar-install-grid">
+
+        <div class="ar-install-card ar-install-card--featured">
+          <div class="ar-install-card-header">
+            <svg class="ar-install-os-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <div>
+              <span class="ar-install-os">macOS &amp; Linux</span>
+              <span class="ar-install-method">Homebrew</span>
+            </div>
+          </div>
+          <div class="ar-code-block">
+            <div class="ar-code-block-header">
+              <span class="ar-code-lang">bash</span>
+              <button class="ar-copy-btn" aria-label="Copy" data-copy="brew install --cask Radixen-Dev/agentroute/agentroute">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span>copy</span>
+              </button>
+            </div>
+            <pre class="ar-code"><span class="ar-c-prompt">$</span> brew install --cask Radixen-Dev/agentroute/agentroute</pre>
+          </div>
+          <p class="ar-install-note">Installs the <code>agentroute</code> binary and keeps it updatable with <code>brew upgrade</code>.</p>
+        </div>
+
+        <div class="ar-install-card">
+          <div class="ar-install-card-header">
+            <svg class="ar-install-os-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8 21 12 17 16 21"/></svg>
+            <div>
+              <span class="ar-install-os">Windows</span>
+              <span class="ar-install-method">Scoop</span>
+            </div>
+          </div>
+          <div class="ar-code-block">
+            <div class="ar-code-block-header">
+              <span class="ar-code-lang">powershell</span>
+              <button class="ar-copy-btn" aria-label="Copy" data-copy="scoop bucket add agentroute https://github.com/Radixen-Dev/scoop-agentroute&#10;scoop install agentroute">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span>copy</span>
+              </button>
+            </div>
+            <pre class="ar-code"><span class="ar-c-prompt">$</span> scoop bucket add agentroute https://github.com/Radixen-Dev/scoop-agentroute
+<span class="ar-c-prompt">$</span> scoop install agentroute</pre>
+          </div>
+          <p class="ar-install-note">Recommended for Windows. Updates with <code>scoop update agentroute</code>.</p>
+        </div>
+
+        <div class="ar-install-card ar-install-card--top">
+          <div class="ar-install-card-header">
+            <svg class="ar-install-os-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            <div>
+              <span class="ar-install-os">All platforms</span>
+              <span class="ar-install-method">Build from source</span>
+            </div>
+          </div>
+          <div class="ar-code-block">
+            <div class="ar-code-block-header">
+              <span class="ar-code-lang">bash</span>
+              <button class="ar-copy-btn" aria-label="Copy" data-copy="git clone https://github.com/Radixen-Dev/AgentRoute &amp;&amp; cd AgentRoute &amp;&amp; go build -o bin/agentroute ./cmd/agentroute">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span>copy</span>
+              </button>
+            </div>
+            <pre class="ar-code"><span class="ar-c-prompt">$</span> git clone https://github.com/Radixen-Dev/AgentRoute
+<span class="ar-c-prompt">$</span> cd AgentRoute &amp;&amp; go build -o bin/agentroute ./cmd/agentroute</pre>
+          </div>
+          <p class="ar-install-note">Requires Go 1.24+. Drop the resulting binary anywhere on your <code>PATH</code>.</p>
+        </div>
+
+      </div>
+
+      <div class="ar-install-litellm-note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <span>Needs LiteLLM on your <code>PATH</code> (<code>pipx install litellm[proxy]</code>). Run <code>agentroute doctor</code> after install &mdash; it checks for this and tells you exactly what's missing.</span>
+      </div>
+    </section>
+
+    <!-- ============ COMMANDS ============ -->
+    <section id="ar-commands">
+      <p class="section-label ar-section-label">Commands</p>
+      <h2 class="section-title">One CLI.<br><span class="ar-text-gradient">Every workflow.</span></h2>
+      <p class="section-subtitle">Every command supports <code>--json</code> for scripting, with stable exit codes 0&ndash;5. The TUI wraps the same engine for interactive use.</p>
+
+      <div class="ar-cmd-list">
+
+        <div class="ar-cmd-row">
+          <div class="ar-cmd-name"><code>agentroute tui</code></div>
+          <div class="ar-cmd-desc">Open the interactive dashboard: gateway status, profile &amp; platform state, and live request activity.</div>
+          <div class="ar-cmd-tag ar-cmd-tag--daily">Daily</div>
+        </div>
+
+        <div class="ar-cmd-row">
+          <div class="ar-cmd-name"><code>agentroute up</code></div>
+          <div class="ar-cmd-desc">Start the gateway and the LiteLLM sidecar, and link Claude Code's <code>settings.json</code> to point at it.</div>
+          <div class="ar-cmd-tag ar-cmd-tag--daily">Daily</div>
+        </div>
+
+        <div class="ar-cmd-row">
+          <div class="ar-cmd-name"><code>agentroute down</code></div>
+          <div class="ar-cmd-desc">Stop the gateway and sidecar, and restore Claude Code's settings to exactly how they were.</div>
+          <div class="ar-cmd-tag ar-cmd-tag--daily">Daily</div>
+        </div>
+
+        <div class="ar-cmd-row">
+          <div class="ar-cmd-name"><code>agentroute status</code></div>
+          <div class="ar-cmd-desc">Report whether the gateway is running, which profile is active, and per-platform link state.</div>
+          <div class="ar-cmd-tag ar-cmd-tag--diag">Diagnostics</div>
+        </div>
+
+        <div class="ar-cmd-row">
+          <div class="ar-cmd-name"><code>agentroute profiles</code></div>
+          <div class="ar-cmd-desc">List, create, delete, and activate profiles &mdash; named mappings from tier to model that the gateway routes against.</div>
+          <div class="ar-cmd-tag ar-cmd-tag--setup">Setup</div>
+        </div>
+
+        <div class="ar-cmd-row">
+          <div class="ar-cmd-name"><code>agentroute models</code></div>
+          <div class="ar-cmd-desc">Browse the OpenRouter model catalog to find candidates for your tier mapping.</div>
+          <div class="ar-cmd-tag ar-cmd-tag--setup">Setup</div>
+        </div>
+
+        <div class="ar-cmd-row">
+          <div class="ar-cmd-name"><code>agentroute key</code></div>
+          <div class="ar-cmd-desc">Set, clear, or check your OpenRouter API key. Stored via env var, OS keyring, or file fallback, in that order.</div>
+          <div class="ar-cmd-tag ar-cmd-tag--setup">Setup</div>
+        </div>
+
+        <div class="ar-cmd-row">
+          <div class="ar-cmd-name"><code>agentroute link</code> / <code>unlink</code></div>
+          <div class="ar-cmd-desc">Manually wire or unwire a specific platform's config, without touching the gateway process.</div>
+          <div class="ar-cmd-tag ar-cmd-tag--adv">Advanced</div>
+        </div>
+
+        <div class="ar-cmd-row">
+          <div class="ar-cmd-name"><code>agentroute doctor</code></div>
+          <div class="ar-cmd-desc">Check for LiteLLM, a valid key, an active profile, and port conflicts before you hit them.</div>
+          <div class="ar-cmd-tag ar-cmd-tag--diag">Diagnostics</div>
+        </div>
+
+      </div>
+
+      <div class="ar-cmd-db-note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        <span>Every command works without a TTY &mdash; no interactive prompts, no spinners on stdout, just <code>--json</code> in, exit code out.</span>
+      </div>
+    </section>
+
+    <!-- ============ SETUP ============ -->
+    <section id="ar-setup">
+      <p class="section-label ar-section-label">Setup</p>
+      <h2 class="section-title">From install<br><span class="ar-text-gradient">to first request.</span></h2>
+      <p class="section-subtitle">Five steps. Two minutes. Fully reversible the whole way.</p>
+
+      <div class="ar-setup-steps">
+
+        <div class="ar-setup-step">
+          <div class="ar-setup-step-num">1</div>
+          <div class="ar-setup-step-body">
+            <h3 class="ar-setup-step-title">Check your environment</h3>
+            <p class="ar-setup-step-desc">Confirms LiteLLM is on your <code>PATH</code> and nothing's already squatting on the gateway's port.</p>
+            <div class="ar-code-block ar-code-block-sm">
+              <div class="ar-code-block-header">
+                <span class="ar-code-lang">bash</span>
+                <button class="ar-copy-btn" aria-label="Copy" data-copy="agentroute doctor">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <span>copy</span>
+                </button>
+              </div>
+              <pre class="ar-code"><span class="ar-c-prompt">$</span> agentroute doctor</pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="ar-setup-step">
+          <div class="ar-setup-step-num">2</div>
+          <div class="ar-setup-step-body">
+            <h3 class="ar-setup-step-title">Set your OpenRouter key</h3>
+            <p class="ar-setup-step-desc">Stored in your OS keyring by default &mdash; never written to a plaintext config file.</p>
+            <div class="ar-code-block ar-code-block-sm">
+              <div class="ar-code-block-header">
+                <span class="ar-code-lang">bash</span>
+                <button class="ar-copy-btn" aria-label="Copy" data-copy="agentroute key set">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <span>copy</span>
+                </button>
+              </div>
+              <pre class="ar-code"><span class="ar-c-prompt">$</span> agentroute key set</pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="ar-setup-step">
+          <div class="ar-setup-step-num">3</div>
+          <div class="ar-setup-step-body">
+            <h3 class="ar-setup-step-title">Create and activate a profile</h3>
+            <p class="ar-setup-step-desc">A profile maps Claude Code's heavy/balanced/fast tiers onto specific OpenRouter models.</p>
+            <div class="ar-code-block ar-code-block-sm">
+              <div class="ar-code-block-header">
+                <span class="ar-code-lang">bash</span>
+                <button class="ar-copy-btn" aria-label="Copy" data-copy="agentroute profiles create default&#10;agentroute profiles activate default">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <span>copy</span>
+                </button>
+              </div>
+              <pre class="ar-code"><span class="ar-c-prompt">$</span> agentroute profiles create default
+<span class="ar-c-prompt">$</span> agentroute profiles activate default</pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="ar-setup-step">
+          <div class="ar-setup-step-num">4</div>
+          <div class="ar-setup-step-body">
+            <h3 class="ar-setup-step-title">Start the gateway</h3>
+            <p class="ar-setup-step-desc">Launches the gateway and sidecar, then links Claude Code's settings to point at it.</p>
+            <div class="ar-code-block ar-code-block-sm">
+              <div class="ar-code-block-header">
+                <span class="ar-code-lang">bash</span>
+                <button class="ar-copy-btn" aria-label="Copy" data-copy="agentroute up">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <span>copy</span>
+                </button>
+              </div>
+              <pre class="ar-code"><span class="ar-c-prompt">$</span> agentroute up</pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="ar-setup-step ar-setup-step--last">
+          <div class="ar-setup-step-num">5</div>
+          <div class="ar-setup-step-body">
+            <h3 class="ar-setup-step-title">Or skip straight to the dashboard</h3>
+            <p class="ar-setup-step-desc"><code>agentroute</code> with no arguments opens the TUI &mdash; <code>u</code> starts the gateway, <code>2</code> jumps to Profiles, <code>?</code> shows the full keymap. Done with it? <code>agentroute down</code> puts everything back.</p>
+            <div class="ar-code-block ar-code-block-sm">
+              <div class="ar-code-block-header">
+                <span class="ar-code-lang">bash</span>
+                <button class="ar-copy-btn" aria-label="Copy" data-copy="agentroute">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <span>copy</span>
+                </button>
+              </div>
+              <pre class="ar-code"><span class="ar-c-prompt">$</span> agentroute</pre>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============ CTA / FOOTER ============ -->
+    <section id="ar-cta">
+      <div class="ar-cta-inner">
+        <p class="section-label ar-section-label">Get It</p>
+        <h2 class="ar-cta-title">Open source.<br><span class="ar-text-gradient">Free forever.</span></h2>
+        <p class="ar-cta-sub">GPL-3.0 licensed. No tracking, no accounts. Your key, your machine, your model choice.</p>
+        <div class="ar-cta-buttons">
+          <a href="https://github.com/Radixen-Dev/AgentRoute" target="_blank" rel="noopener" class="btn-primary btn-large">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            View on GitHub
+          </a>
+          <a href="https://radixen-dev.github.io/AgentRoute/" target="_blank" rel="noopener" class="btn-ghost">
+            Documentation
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer id="footer">
+    <div class="footer-brand">
+      <img src="../assets/logo.png" alt="Radixen" class="footer-logo">
+      <p class="footer-copy">&copy; 2026 Radixen</p>
+    </div>
+    <ul class="footer-links" role="list">
+      <li><a href="https://github.com/Radixen-Dev/AgentRoute" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://radixen-dev.github.io/AgentRoute/" target="_blank" rel="noopener">Docs</a></li>
+      <li><a href="https://github.com/Radixen-Dev/AgentRoute/releases" target="_blank" rel="noopener">Releases</a></li>
+      <li><a href="/">radixen.com</a></li>
+    </ul>
+    <p class="footer-source">AgentRoute is GPL-3.0 licensed and fully open source. <a href="https://github.com/Radixen-Dev/AgentRoute" target="_blank" rel="noopener">View source on GitHub &rarr;</a></p>
+  </footer>
+
+  <!-- GSAP + ScrollTrigger (no integrity hashes per project convention) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="agentroute.js"></script>
+</body>
+</html>

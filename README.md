@@ -33,8 +33,13 @@ radixen-web/
 │   ├── index.html
 │   ├── handoff.css
 │   └── handoff.js
+├── agentroute/         # /agentroute product page
+│   ├── index.html
+│   ├── agentroute.css
+│   └── agentroute.js
 ├── assets/
-│   └── logo.png        # Logo, favicon, OG image
+│   ├── logo.png             # Radixen logo, favicon, OG image
+│   └── agentroute-logo.svg  # AgentRoute icon
 ├── CNAME               # Custom domain (www.radixen.com)
 ├── robots.txt
 ├── sitemap.xml
@@ -58,6 +63,7 @@ Open [http://localhost:4242](http://localhost:4242). No install, no build.
 
 - **Homepage** (`index.html`) — Hero, Areas, Projects, Services, About, Contact, Footer.
 - **handoff** (`handoff/`) — Product landing page for [handoff](https://github.com/Radixen-Dev/handoff), an open-source Go CLI that transfers knowledge between AI agent sessions.
+- **AgentRoute** (`agentroute/`) — Product landing page for [AgentRoute](https://github.com/Radixen-Dev/AgentRoute), an open-source Go CLI + TUI that routes Claude Code through OpenRouter.
 
 ---
 
