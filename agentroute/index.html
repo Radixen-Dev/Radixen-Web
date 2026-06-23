@@ -148,26 +148,32 @@
           <div class="ar-arch-node-title">Claude Code</div>
           <div class="ar-arch-node-cap"><code>~/.claude/settings.json</code> env block points here</div>
         </div>
-        <div class="ar-arch-pair">
-          <div class="ar-arch-arrow" style="--d:1"><span>Anthropic /v1/messages</span></div>
-          <div class="ar-arch-node ar-arch-node--accent" style="--d:2">
-            <div class="ar-arch-node-title">AgentRoute gateway</div>
-            <div class="ar-arch-node-cap">127.0.0.1:4505 &mdash; authenticates, applies your tier&rarr;model mapping</div>
-          </div>
+
+        <div class="ar-arch-connector" style="--d:1">
+          <span class="ar-arch-connector-label">Anthropic /v1/messages</span>
         </div>
-        <div class="ar-arch-pair">
-          <div class="ar-arch-arrow" style="--d:3"><span>proxy</span></div>
-          <div class="ar-arch-node" style="--d:4">
-            <div class="ar-arch-node-title">LiteLLM sidecar</div>
-            <div class="ar-arch-node-cap">renders config from your active profile</div>
-          </div>
+
+        <div class="ar-arch-node ar-arch-node--accent" style="--d:2">
+          <div class="ar-arch-node-title">AgentRoute gateway</div>
+          <div class="ar-arch-node-cap">127.0.0.1:4505 &mdash; authenticates, applies your tier&rarr;model mapping</div>
         </div>
-        <div class="ar-arch-pair">
-          <div class="ar-arch-arrow" style="--d:5"><span>&#9472;&#9472;&#9656;</span></div>
-          <div class="ar-arch-node" style="--d:6">
-            <div class="ar-arch-node-title">OpenRouter</div>
-            <div class="ar-arch-node-cap">300+ models, one API key</div>
-          </div>
+
+        <div class="ar-arch-connector" style="--d:3">
+          <span class="ar-arch-connector-label">proxy</span>
+        </div>
+
+        <div class="ar-arch-node" style="--d:4">
+          <div class="ar-arch-node-title">LiteLLM sidecar</div>
+          <div class="ar-arch-node-cap">renders config from your active profile</div>
+        </div>
+
+        <div class="ar-arch-connector" style="--d:5">
+          <span class="ar-arch-connector-label">routes to</span>
+        </div>
+
+        <div class="ar-arch-node" style="--d:6">
+          <div class="ar-arch-node-title">OpenRouter</div>
+          <div class="ar-arch-node-cap">300+ models, one API key</div>
         </div>
       </div>
 

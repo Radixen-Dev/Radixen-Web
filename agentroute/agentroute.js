@@ -198,7 +198,7 @@ function initScrollAnimations() {
     start: 'top 80%',
     once: true,
     onEnter: () => {
-      document.querySelectorAll('.ar-arch-node, .ar-arch-arrow').forEach(el => el.classList.add('visible'));
+      document.querySelectorAll('.ar-arch-node, .ar-arch-connector').forEach(el => el.classList.add('visible'));
     },
   });
 
