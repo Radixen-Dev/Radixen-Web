@@ -387,6 +387,26 @@ function initScrollAnimations() {
     });
   }
 
+  /* Projects section — AgentRoute dashboard demo */
+  const homeTuiMock = document.getElementById('home-tui-mock');
+  if (homeTuiMock) {
+    gsap.fromTo(homeTuiMock,
+      { opacity: 0, y: 40, scale: 0.97 },
+      {
+        opacity: 1, y: 0, scale: 1,
+        duration: 0.85, ease: 'power3.out',
+        scrollTrigger: { trigger: homeTuiMock, start: 'top 84%' },
+      }
+    );
+
+    ScrollTrigger.create({
+      trigger: homeTuiMock,
+      start: 'top 76%',
+      once: true,
+      onEnter: () => initHomeTuiMockSequence(homeTuiMock),
+    });
+  }
+
   /* Services heading */
   fadeUp('.services-header .section-title',    { from: { opacity: 0, y: 36 }, start: 'top 84%' });
   fadeUp('.services-header .section-subtitle', { from: { opacity: 0, y: 22 }, start: 'top 84%' });
@@ -463,6 +483,76 @@ function initScrollAnimations() {
       scrollTrigger: { trigger: '.contact-flow', start: 'top 85%' },
     }
   );
+}
+
+/* ============================================================
+   AGENTROUTE DASHBOARD DEMO (homepage spotlight)
+   Smaller copy of the sequence on /agentroute — recreates the
+   real TUI Dashboard's gateway up/down flow for the front-page demo.
+   ============================================================ */
+function initHomeTuiMockSequence(root) {
+  const pill        = root.querySelector('#home-tui-pill');
+  const gatewayLine = root.querySelector('#home-tui-gateway-line');
+  const gatewayBtn  = root.querySelector('#home-tui-gateway-btn');
+  const claudeLine  = root.querySelector('#home-tui-claude-line');
+  const toast       = root.querySelector('#home-tui-toast');
+  const spark       = root.querySelector('#home-tui-spark');
+
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const BAR_COUNT = 20;
+  for (let i = 0; i < BAR_COUNT; i++) spark.appendChild(document.createElement('span'));
+  const bars = spark.querySelectorAll('span');
+
+  function randomizeBars() {
+    bars.forEach(bar => { bar.style.height = (6 + Math.random() * 90) + '%'; });
+  }
+
+  function showToast(text) {
+    toast.textContent = text;
+    toast.classList.add('visible');
+    setTimeout(() => toast.classList.remove('visible'), 2200);
+  }
+
+  if (reduced) {
+    pill.dataset.state = 'up';
+    pill.textContent = 'gateway: up';
+    gatewayLine.textContent = 'up on 127.0.0.1:4505  (sidecar :4510, profile "default")';
+    gatewayBtn.textContent = '[d] stop';
+    claudeLine.innerHTML = 'claude-code:&nbsp;&nbsp;<span class="tui-mock-accent">linked &rarr; http://127.0.0.1:4505</span>';
+    randomizeBars();
+    return;
+  }
+
+  setTimeout(() => {
+    pill.dataset.state = 'pending';
+    pill.textContent = 'gateway: starting...';
+    gatewayLine.textContent = 'down  (starting...)';
+  }, 700);
+
+  setTimeout(() => {
+    pill.dataset.state = 'up';
+    pill.textContent = 'gateway: up';
+    gatewayLine.textContent = 'up on 127.0.0.1:4505  (sidecar :4510, profile "default")';
+    gatewayBtn.textContent = '[d] stop';
+    claudeLine.innerHTML = 'claude-code:&nbsp;&nbsp;<span class="tui-mock-accent">linked &rarr; http://127.0.0.1:4505</span>';
+    showToast('gateway up');
+  }, 1900);
+
+  let tick = 0;
+  const interval = setInterval(() => {
+    randomizeBars();
+    tick++;
+    if (tick === 6) showToast('model: anthropic/claude-sonnet-4 → openrouter');
+  }, 900);
+
+  ScrollTrigger.create({
+    trigger: root,
+    start: 'top bottom',
+    end: 'bottom top',
+    onLeave: () => clearInterval(interval),
+    onLeaveBack: () => clearInterval(interval),
+  });
 }
 
 /* ============================================================

@@ -272,6 +272,84 @@
         </div>
 
       </div>
+
+      <div class="project-spotlight project-spotlight--agentroute">
+
+        <div class="project-spotlight-info">
+          <div class="project-meta">
+            <span class="project-release-badge project-release-badge--agentroute">
+              <span class="project-release-dot project-release-dot--agentroute" aria-hidden="true"></span>
+              v0.1.0 &nbsp;&middot;&nbsp; Pre-release
+            </span>
+            <span class="project-lang-badge">Go</span>
+          </div>
+
+          <h3 class="project-name project-name--agentroute"><span class="ar-word-agent">Agent</span><span class="ar-word-route">Route</span></h3>
+          <p class="project-tagline">Route Claude Code through OpenRouter. One key, any model.</p>
+          <p class="project-desc">
+            Claude Code talks straight to Anthropic's API. <code>agentroute</code> runs a local gateway that lets every Opus, Sonnet, and Haiku call route through OpenRouter instead &mdash; any model, fully reversible, nothing leaves your machine except straight to OpenRouter.
+          </p>
+
+          <div class="project-tags" aria-label="Technologies">
+            <span>Go</span>
+            <span>CLI</span>
+            <span>TUI</span>
+            <span>OpenRouter</span>
+            <span>Claude Code</span>
+            <span>Cross-platform</span>
+          </div>
+
+          <div class="project-actions">
+            <a href="https://github.com/Radixen-Dev/AgentRoute" target="_blank" rel="noopener" class="btn-primary project-btn--agentroute">
+              View on GitHub
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="/agentroute/" class="btn-ghost btn-services project-btn-ghost--agentroute">
+              Learn more
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="https://radixen-dev.github.io/AgentRoute/" target="_blank" rel="noopener" class="btn-ghost project-btn-ghost--agentroute">
+              Documentation
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="tui-mock" id="home-tui-mock" role="img" aria-label="AgentRoute dashboard preview">
+          <div class="tui-mock-bar">
+            <div class="tui-mock-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+            <span class="tui-mock-bar-title">agentroute</span>
+          </div>
+          <div class="tui-mock-screen">
+            <div class="tui-mock-header">
+              <span class="tui-mock-wordmark"><span class="tui-mock-wordmark-a">Agent</span><span class="tui-mock-wordmark-r">Route</span></span>
+              <span class="tui-mock-screentitle">Dashboard</span>
+              <span class="tui-mock-pill" id="home-tui-pill" data-state="down">gateway: down</span>
+            </div>
+            <div class="tui-mock-body">
+              <div class="tui-mock-card">
+                <div class="tui-mock-card-title">Gateway</div>
+                <div class="tui-mock-card-line" id="home-tui-gateway-line">down</div>
+                <button class="tui-mock-btn" id="home-tui-gateway-btn" type="button">[u] start</button>
+              </div>
+              <div class="tui-mock-card">
+                <div class="tui-mock-card-title">Profile &amp; Platforms</div>
+                <div class="tui-mock-card-line">active profile: <span class="tui-mock-accent">default</span></div>
+                <div class="tui-mock-card-line" id="home-tui-claude-line">claude-code:&nbsp;&nbsp;<span class="tui-mock-muted">not linked</span></div>
+              </div>
+              <div class="tui-mock-card">
+                <div class="tui-mock-card-title">Request activity</div>
+                <div class="tui-mock-spark" id="home-tui-spark"></div>
+              </div>
+            </div>
+            <div class="tui-mock-statusbar">
+              <span>&lt;u&gt; start gateway&nbsp;&nbsp;&lt;?&gt; help</span>
+              <span class="tui-mock-toast" id="home-tui-toast"></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </section>
 
     <!-- ============ SERVICES: WEB DESIGN ============ -->
