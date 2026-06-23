@@ -14,7 +14,7 @@ The official Radixen website. Static HTML/CSS/JS, no build step.
 | Styles | CSS3 (custom properties, grid, clamp) |
 | Animations | [GSAP 3](https://gsap.com/) + ScrollTrigger |
 | Fonts | Exo 2 + JetBrains Mono (Google Fonts) |
-| Hosting | Vercel |
+| Hosting | GitHub Pages (custom domain via `CNAME`) |
 
 No framework. No build toolchain. No dependencies to install.
 
@@ -22,13 +22,22 @@ No framework. No build toolchain. No dependencies to install.
 
 ## Project structure
 
-```
+```text
 radixen-web/
-├── index.html          # All markup
-├── style.css           # All styles
-├── script.js           # All interactivity & animation
+├── index.html          # Homepage markup
+├── css/
+│   └── style.css       # All shared styles (both pages)
+├── js/
+│   └── script.js       # Homepage interactivity & animation
+├── handoff/            # /handoff product page
+│   ├── index.html
+│   ├── handoff.css
+│   └── handoff.js
 ├── assets/
-│   └── logo.png        # Radixen logo
+│   └── logo.png        # Logo, favicon, OG image
+├── CNAME               # Custom domain (www.radixen.com)
+├── robots.txt
+├── sitemap.xml
 ├── README.md
 └── CONTRIBUTING.md
 ```
@@ -45,7 +54,14 @@ Open [http://localhost:4242](http://localhost:4242). No install, no build.
 
 ---
 
-## Sections
+## Pages
+
+- **Homepage** (`index.html`) — Hero, Areas, Projects, Services, About, Contact, Footer.
+- **handoff** (`handoff/`) — Product landing page for [handoff](https://github.com/Radixen-Dev/handoff), an open-source Go CLI that transfers knowledge between AI agent sessions.
+
+---
+
+## Homepage sections
 
 - **Hero** — Full-viewport intro with particle canvas, animated title, and entry CTAs
 - **Areas** — Six discipline cards: AI/ML, Software Engineering, Web Development, Creative & Interactive, Research & Exploration, Tools & Open Source
