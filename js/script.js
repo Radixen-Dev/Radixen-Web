@@ -626,13 +626,13 @@ function initContactFlow() {
 
       if (choice === 'webdesign') {
         icon.textContent    = '🎨';
-        heading.textContent = "Let's build something great.";
-        sub.textContent     = "Tell us about your project - scope, ideas, timeline. We'll get back to you.";
+        heading.textContent = 'Tell us about the project.';
+        sub.textContent     = 'A brief outline, useful links, and any timing details are helpful.';
       } else {
         /* general / research */
         icon.textContent    = '✉️';
-        heading.textContent = "That's the one.";
-        sub.textContent     = "Send whatever you've got. We'll get back to you.";
+        heading.textContent = 'Send us a note.';
+        sub.textContent     = 'A few details or relevant links are helpful.';
       }
 
       showStep('step-2a', 'forward');
