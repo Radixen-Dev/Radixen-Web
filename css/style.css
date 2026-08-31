@@ -1286,6 +1286,36 @@ section {
   margin-right: auto;
 }
 
+.contact-direct {
+  margin: 2rem auto 0;
+  padding: 1rem 1.25rem;
+  max-width: 440px;
+  border: 1px solid rgba(40, 136, 194, 0.25);
+  border-radius: 11px;
+  background: rgba(28, 34, 64, 0.45);
+}
+
+.contact-direct p {
+  margin: 0 0 0.45rem;
+  color: rgba(252, 249, 249, 0.52);
+  font-size: 0.825rem;
+}
+
+.contact-phone {
+  color: var(--cyan);
+  font-family: var(--ff-mono);
+  font-size: 1rem;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+}
+
+.contact-phone:hover,
+.contact-phone:focus-visible {
+  color: var(--white);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
 .contact-flow {
   margin-top: 2.75rem;
   min-height: 200px;
